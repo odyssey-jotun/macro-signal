@@ -3,7 +3,8 @@
 - Campaign: Macro Signal launch
 - Start date: November 2026
 - Lead generator: [The Free Economic Report Guide](https://odyssey-jotun.github.io/macro-signal/guide.html)
-- Commitment step: the free paper-trading demo
+- Direct call to action: Sign Up Free
+- Transitional call to action: Download the Free Report Guide
 
 The canvas follows Donald Miller's StoryBrand Messaging Canvas: four rules, five foundational soundbites, three cornerstone tools, then a campaign map. Every asset below repeats the same words.
 
@@ -47,6 +48,19 @@ Lots of people see headlines about inflation and interest rates and have no idea
 
 Lots of people know the economy affects their savings, but the biggest reports come out at 8:30 on weekday mornings, buried in government tables. I used to miss every one of them, because they came out during class. So I'm building an AI that reads the four reports that move the economy the day they come out and explains each one in plain English. You'll know what inflation, jobs and interest rates are doing without hours of research. And the next time a headline hits, you'll know what it means for your money.
 
+## Calls to action
+
+Two buttons, worded the same way on every page, post, email and video.
+
+| | Direct | Transitional |
+| --- | --- | --- |
+| Button | **Sign Up Free** | **Download the Free Report Guide** |
+| What the reader gets | Macro Signal: the AI's plain-English read of each of the four reports, emailed the day it comes out, with the trade it made on a paper account and its reason | A one-page guide to the four reports: what each measures, who publishes it, when it comes out |
+| Who it's for | Readers ready to use the product | Readers who aren't ready yet |
+| Where it goes | Top right of every page in its own color, under the hero headline, the plan, the closing banner, every email, every bio | The plan's first step, the guide page, every teaser post |
+
+The guide trades the PDF for an email address. The sales emails then ask for Sign Up Free until the reader says yes.
+
 ## Campaign map
 
 Curiosity earns attention. Enlightenment builds trust over time. Commitment asks for the next step.
@@ -76,14 +90,15 @@ Curiosity earns attention. Enlightenment builds trust over time. Commitment asks
 | Asset | Where | Status |
 | --- | --- | --- |
 | Five-email sales series | Sent over eight days after a guide download | [Written](emails.md#sales-series) |
-| Free paper-trading demo | A dashboard of the AI's reads and paper trades, with its reasons | Opens when version one works |
-| Demo signup page | One button: Join the Free Demo | Waits on an email tool |
-| Onboarding roadmap | What happens after someone joins the demo | Later |
+| Sign Up Free page | The signup form for Macro Signal | Waits on an email tool |
+| Welcome email | What a reader receives after signing up, and when the first read arrives | Later |
+| Paper-trading dashboard | Every read and paper trade with its reason, for subscribers to check the record | Opens when version one works |
 
 ## What the campaign needs next
 
 1. An email tool (Kit and Mailchimp both have free plans) so the guide page can trade the PDF for an email address. The sales and nurture emails start from that signup.
-2. Version one of the agent, so the demo and the first weekly update have real reads to show.
+2. Version one of the agent, so the first read goes out to everyone who signed up.
+3. A Sign Up Free button on the site: top right on every page and under the hero headline.
 
 ## Guardrails
 

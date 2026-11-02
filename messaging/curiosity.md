@@ -12,7 +12,7 @@ For when someone asks what I'm working on. Thirty seconds, memorized.
 
 **Instagram** (150 characters)
 
-> The economy, read for you. An AI that explains the four reports that move the market. Free one-page guide below.
+> The economy, read for you. An AI that explains the four reports that move the market. Sign up free below.
 
 **LinkedIn headline**
 
@@ -20,13 +20,13 @@ For when someone asks what I'm working on. Thirty seconds, memorized.
 
 **LinkedIn about**
 
-> Lots of people see headlines about inflation and interest rates and have no idea what they mean for their money. I'm building an AI that reads the four economic reports that move the market the day they come out and explains each one in plain English. Start with the free one-page report guide on my site.
+> Lots of people see headlines about inflation and interest rates and have no idea what they mean for their money. I'm building an AI that reads the four economic reports that move the market the day they come out and explains each one in plain English. Sign up free on my site, and the AI's read of each report comes to your inbox.
 >
 > Student project. Paper trading only, with no real money. Nothing here is investment advice.
 
 **YouTube channel description**
 
-> The economy, read for you. Each week I show what my AI read in the newest economic reports, what it traded on a paper account with no real money, and why. Start with the free one-page report guide on my site.
+> The economy, read for you. Each week I show what my AI read in the newest economic reports, what it traded on a paper account with no real money, and why. Sign up free on my site for the AI's read of each report.
 
 ## Email signature
 
@@ -46,7 +46,7 @@ One post per report. Each one teaches one fact and sends people to the free guid
 >
 > When prices rise quickly, the Federal Reserve can keep interest rates higher for longer. That reaches your mortgage, car loan and savings account.
 >
-> The CPI is one of four reports that move the economy. All four are on one free page. Link in bio.
+> The CPI is one of four reports that move the economy. All four are on one free page: download the Free Report Guide at the link in my bio.
 
 **2. The jobs report**
 
@@ -54,7 +54,7 @@ One post per report. Each one teaches one fact and sends people to the free guid
 >
 > It's payroll jobs: how many jobs employers added or cut last month, outside of farm work. It's one of the clearest signs of whether the economy is growing or slowing.
 >
-> It's one of four reports that move the economy. All four are on one free page. Link in bio.
+> It's one of four reports that move the economy. All four are on one free page: download the Free Report Guide at the link in my bio.
 
 **3. The unemployment rate**
 
@@ -62,7 +62,7 @@ One post per report. Each one teaches one fact and sends people to the free guid
 >
 > The Federal Reserve's job is to keep prices stable and employment high, so it watches this number closely. It comes out in the same report as payroll jobs, usually the first Friday of the month.
 >
-> One of four reports that move the economy. All four are on one free page. Link in bio.
+> One of four reports that move the economy. All four are on one free page: download the Free Report Guide at the link in my bio.
 
 **4. The federal funds rate**
 
@@ -70,7 +70,7 @@ One post per report. Each one teaches one fact and sends people to the free guid
 >
 > It's the federal funds rate, the rate banks charge each other to borrow overnight.
 >
-> One of four reports that move the economy. All four are on one free page. Link in bio.
+> One of four reports that move the economy. All four are on one free page: download the Free Report Guide at the link in my bio.
 
 Every post ends with:
 
@@ -94,6 +94,6 @@ The brand story, read to camera. About 150 words.
 >
 > You'll know what the economy is doing without hours of research. And the next time a headline hits, you'll know what it means for your money.
 >
-> Start with the free one-page report guide. The link is below.
+> Sign up free for Macro Signal at the link below, and the AI's read of the next report comes straight to your inbox.
 >
 > [On screen: The economy, read for you. Student project. Paper trading only. Not investment advice.]

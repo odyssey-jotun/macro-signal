@@ -2,8 +2,10 @@
 
 Two series, both in my voice, both repeating the soundbites from the [Messaging Canvas](canvas.md).
 
-- **Sales series:** five emails over eight days, starting the moment someone downloads the free report guide. Each one moves a reader toward the free paper-trading demo.
-- **Nurture series:** six emails, one a week, after the sales series ends. Each one teaches one useful thing and mentions the demo once.
+Every email has one call to action, a button that says **Sign Up Free**. Signing up means the AI's plain-English read of each of the four reports, emailed the day it comes out, with the trade it made on a paper account and its reason.
+
+- **Sales series:** five emails over eight days, starting the moment someone downloads the free report guide. Each one asks for the same thing: sign up free for Macro Signal.
+- **Nurture series:** six emails, one a week, after the sales series ends. Each one teaches one useful thing and ends with the same button.
 
 Every email ends with the same footer:
 
@@ -41,7 +43,9 @@ I used to miss every one of them, because they came out during class.
 
 So I'm building an AI that reads the four reports that move the economy the day they come out and explains each one in plain English. It also makes a trade on a paper account with no real money, and it writes down why.
 
-When version one is ready, I'm opening a free demo where you can watch it work. Reply "demo" and I'll add you to the list.
+That's Macro Signal. Sign up free, and the AI's read of each report lands in your inbox the day it comes out.
+
+[Sign Up Free]
 
 Talk soon,
 Julian
@@ -52,7 +56,7 @@ Julian
 
 Hey,
 
-Here's what you'll see in the demo every time one of the four reports comes out:
+Here's what lands in your inbox every time one of the four reports comes out:
 
 1. The new number, straight from the agency that publishes it.
 2. How it compares with the month before.
@@ -60,7 +64,9 @@ Here's what you'll see in the demo every time one of the four reports comes out:
 
 Every read is posted, including the ones where the AI is wrong. You can judge for yourself whether its reasoning holds up.
 
-Reply "demo" to join the list for the free demo.
+Sign up free, and the next read comes straight to you.
+
+[Sign Up Free]
 
 Talk soon,
 Julian
@@ -73,11 +79,13 @@ Hey,
 
 No. The AI only trades a paper account with no real money, and it only trades for me. It doesn't place trades for anyone else, and it doesn't tell anyone what to buy or sell.
 
-The demo is there for you to learn from. You see the report, the AI's read and its reasoning. Then you decide what the news means for your own money.
+Macro Signal is there for you to learn from. You see the report, the AI's read and its reasoning. Then you decide what the news means for your own money.
 
 Paper results are hypothetical. They leave out real fees and slippage, and they can't predict future returns. I'll say that every time I post one.
 
-Reply "demo" to join the list.
+Sign up free and read the AI's take on the next report.
+
+[Sign Up Free]
 
 Talk soon,
 Julian
@@ -92,7 +100,9 @@ Two researchers studied 66,465 households at a discount brokerage from 1991 to 1
 
 A headline is somebody's quick take on a report. The report itself is the data. The guide you downloaded shows where each one comes from, and the AI reads the data straight from the source.
 
-If you're tired of guessing what the economic news means, the free demo is the right next step. Want in? Reply "demo" and you're on the list.
+If you're tired of guessing what the economic news means, signing up for Macro Signal is the right decision. It's free. Will you sign up today?
+
+[Sign Up Free]
 
 Talk soon,
 Julian
@@ -113,7 +123,9 @@ The Bureau of Labor Statistics publishes it monthly, around the middle of the mo
 
 It matters for your money because when prices rise quickly, the Federal Reserve can keep interest rates higher for longer. That reaches mortgages, car loans and savings accounts.
 
-P.S. The free demo shows the AI's read of every CPI report. Reply "demo" to join the list.
+Macro Signal emails you the AI's read of every CPI report the day it comes out.
+
+[Sign Up Free]
 
 Talk soon,
 Julian
@@ -130,7 +142,9 @@ Here's the part many people miss. The Bureau of Labor Statistics revises the two
 
 So when you see a big jobs headline, check the revisions too.
 
-P.S. The AI in the free demo reads the revisions along with the new number. Reply "demo" to join the list.
+Macro Signal reads the revisions along with the new number and emails you both.
+
+[Sign Up Free]
 
 Talk soon,
 Julian
@@ -145,7 +159,9 @@ Someone counts as unemployed if they want a job, are looking for one and don't h
 
 The unemployment rate comes out in the same report as payroll jobs, usually the first Friday of the month. The Federal Reserve's job is to keep prices stable and employment high, so it watches this number closely.
 
-P.S. Reply "demo" to join the list for the free demo.
+Macro Signal emails you the AI's read of every jobs report the day it comes out.
+
+[Sign Up Free]
 
 Talk soon,
 Julian
@@ -160,7 +176,9 @@ Eight times a year, the Federal Reserve meets and announces a decision at 2:00 p
 
 That one rate ripples out to the rates on mortgages, car loans, credit cards and savings accounts. When it moves, borrowing and saving change for everyone.
 
-P.S. The free demo shows the AI's read of every Fed decision. Reply "demo" to join the list.
+Macro Signal emails you the AI's read of every Fed decision the afternoon it's announced.
+
+[Sign Up Free]
 
 Talk soon,
 Julian
@@ -177,7 +195,9 @@ More information made the decision harder, and some people skipped it altogether
 
 That's why the guide covers only four reports. They're the ones the AI reads first, and they're enough to follow what the economy is doing.
 
-P.S. Reply "demo" to join the list for the free demo.
+Macro Signal reads those four for you and emails what each one says.
+
+[Sign Up Free]
 
 Talk soon,
 Julian
@@ -194,7 +214,9 @@ Researchers looked at the stocks Robinhood users piled into each day. Over the n
 
 The four reports in your guide come out on a schedule. You can know the dates ahead of time and read the data yourself, the same day.
 
-P.S. The free demo posts the AI's read the day each report comes out. Reply "demo" to join the list.
+Macro Signal emails you the AI's read the day each report comes out.
+
+[Sign Up Free]
 
 Talk soon,
 Julian
