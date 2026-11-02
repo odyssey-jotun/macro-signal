@@ -10,7 +10,7 @@ Every email has one call to action, a button that says **Sign Up Free**. Signing
 Every email ends with the same footer:
 
 > Julian Sassoon  
-> Macro Signal: The economy, read for you.  
+> Macro Signal: Know what the economic news means for your money.  
 >
 > Student project. Paper trading only, with no real money. Nothing here is investment advice. Unsubscribe anytime.
 

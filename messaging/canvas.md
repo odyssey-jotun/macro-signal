@@ -31,14 +31,16 @@ Every line on this page has to pass all four.
 
 ### Tagline
 
-**The economy, read for you.**
+**Know what the economic news means for your money.**
 
-It names the category (the economy) and the offer (someone reads it for you), and it repeats back in five words. The elevator pitch carries the money link.
+It comes straight from the end-result soundbite. It passes the four rules:
 
-Candidates tested against it:
+1. **Zero cognitive load:** plain words, no finance terms.
+2. **Survival:** your money.
+3. **Repeatable:** one sentence that someone can say back.
+4. **Customer as hero:** the reader is the one who knows.
 
-- Know what the news means for your money.
-- Economic news in plain English.
+It names the category, economic news, and the offer, understanding what that news means for the reader. Plan step 3 on the site repeats it.
 
 ### Elevator pitch
 
