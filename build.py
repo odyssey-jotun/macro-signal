@@ -93,10 +93,10 @@ def preload(name):
             f'imagesizes="{PORTRAIT_SIZES}" fetchpriority="high">\n')
 
 
-BANNER_PRELOAD = ('<link rel="preload" as="image" type="image/webp" media="(min-width: 861px)" href="images/banner-1600.webp" '
-                  'imagesrcset="images/banner-1000.webp 1000w, images/banner-1600.webp 1600w, images/banner-2400.webp 2400w" imagesizes="100vw" fetchpriority="high">\n'
-                  '<link rel="preload" as="image" type="image/webp" media="(max-width: 860px)" href="images/banner-m-900.webp" '
-                  'imagesrcset="images/banner-m-600.webp 600w, images/banner-m-900.webp 900w" imagesizes="100vw" fetchpriority="high">\n')
+BANNER_PRELOAD = ('<link rel="preload" as="image" type="image/webp" media="(min-width: 861px)" href="images/hero-900.webp" '
+                  'imagesrcset="images/hero-600.webp 600w, images/hero-900.webp 900w, images/hero-1200.webp 1200w" imagesizes="460px" fetchpriority="high">\n'
+                  '<link rel="preload" as="image" type="image/webp" media="(max-width: 860px)" href="images/hero-m-900.webp" '
+                  'imagesrcset="images/hero-m-600.webp 600w, images/hero-m-900.webp 900w" imagesizes="100vw" fetchpriority="high">\n')
 
 
 PERSON = {
@@ -283,12 +283,169 @@ def bars(rows, top):
                      for label, val, cls in rows)
 
 
+# ---------------------------------------------------------------- latest numbers
+# Saved from the BLS Public Data API and the Federal Reserve's FOMC
+# statements in tools/data.json. Refresh that file after each report and
+# rebuild; every number and chart on the site follows.
+DATA = json.load(open("tools/data.json"))
+AS_OF = "November 2, 2026"
+MON = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
+FULL = "January February March April May June July August September October November December".split()
+
+
+def ym(k, full=False):
+    y, m = k.split("-")
+    return f"{(FULL if full else MON)[int(m) - 1]} {y}"
+
+
+def window(series, n=13):
+    """The last n months of a series, ending at its newest number."""
+    ks = sorted(DATA[series])
+    while DATA[series][ks[-1]] is None:
+        ks.pop()
+    return ks[-n:]
+
+
+def cpi_yoy():
+    c = DATA["CUUR0000SA0"]
+    out = []
+    for k in window("CUUR0000SA0"):
+        a, b = c.get(k), c.get(f"{int(k[:4]) - 1}{k[4:]}")
+        out.append((k, None if a is None or b is None else round((a / b - 1) * 100, 1)))
+    return out
+
+
+def cpi_month():
+    c = DATA["CUSR0000SA0"]
+    a, b = window("CUSR0000SA0", 2)
+    return b, round((c[b] / c[a] - 1) * 100, 1)
+
+
+def payroll_changes():
+    p = DATA["CES0000000001"]
+    ks = window("CES0000000001")
+    return [(k, round(p[k] - p[ks[i - 1]])) for i, k in enumerate(ks) if i]
+
+
+def series(name):
+    return [(k, DATA[name][k]) for k in window(name)]
+
+
+def spark_line(points, label, step=False):
+    """A 12-month line. A month with no data breaks the line."""
+    vals = [v for _, v in points if v is not None]
+    pad = (max(vals) - min(vals)) * 0.18 or 0.5
+    lo, hi = min(vals) - pad, max(vals) + pad
+    W, H = 240, 64
+    segs, cur = [], []
+    for i, (_, v) in enumerate(points):
+        if v is None:
+            if cur:
+                segs.append(cur)
+            cur = []
+            continue
+        x, y = i * W / (len(points) - 1), H - (v - lo) / (hi - lo) * H
+        if step and cur:
+            cur.append((x, cur[-1][1]))
+        cur.append((x, y))
+    segs.append(cur)
+    lines = "".join('<polyline points="' + " ".join(f"{x:.1f},{y:.1f}" for x, y in seg) + '"/>' for seg in segs if seg)
+    lx, ly = segs[-1][-1]
+    return (f'<svg class="spark" viewBox="-6 -8 {W + 12} {H + 16}" role="img" aria-label="{label}">'
+            f'<g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">{lines}</g>'
+            f'<circle cx="{lx:.1f}" cy="{ly:.1f}" r="4.5" fill="currentColor"/></svg>')
+
+
+def spark_bars(points, label):
+    """Monthly job gains above the line, losses below it."""
+    top = max(abs(v) for _, v in points)
+    W, H = 240, 64
+    mid, bw = H / 2, W / len(points)
+    rects = "".join(
+        f'<rect class="{"up" if v >= 0 else "down"}" x="{i * bw + bw * 0.18:.1f}" y="{mid - v / top * mid if v >= 0 else mid:.1f}" '
+        f'width="{bw * 0.64:.1f}" height="{max(abs(v) / top * mid, 1.5):.1f}" rx="2"/>'
+        for i, (_, v) in enumerate(points))
+    return (f'<svg class="spark" viewBox="-6 -8 {W + 12} {H + 16}" role="img" aria-label="{label}">'
+            f'<line class="axis" x1="0" x2="{W}" y1="{mid}" y2="{mid}"/>{rects}</svg>')
+
+
+def latest():
+    """The newest number from each report, a line of context and a 12-month chart."""
+    yoy, jobs, un, fed = cpi_yoy(), payroll_changes(), series("LNS14000000"), series("fedfunds_upper")
+    (ck, cv), (jk, jv), (uk, uv) = yoy[-1], jobs[-1], un[-1]
+    return {
+        "cpi": {"big": f"{cv}%", "series": "CUUR0000SA0", "tape_note": f"12-month, {ym(ck)}",
+                "note": f"Prices over the past 12 months, as of {ym(ck, True)}. Up from {yoy[-2][1]}% the month before.",
+                "chart": spark_line(yoy, f"12-month inflation from {ym(yoy[0][0])} to {ym(ck)}, ending at {cv}%")},
+        "jobs": {"big": f"{jv:+,}K", "series": "CES0000000001", "tape_note": ym(jk),
+                 "note": f"Jobs added in {ym(jk, True)}, after {jobs[-2][1]:+,}K the month before.",
+                 "chart": spark_bars(jobs, f"Monthly job gains and losses from {ym(jobs[0][0])} to {ym(jk)}")},
+        "unemployment": {"big": f"{uv}%", "series": "LNS14000000", "tape_note": ym(uk),
+                         "note": f"Share of people looking for work in {ym(uk, True)}. {un[-2][1]}% the month before.",
+                         "chart": spark_line(un, f"Unemployment rate from {ym(un[0][0])} to {ym(uk)}, ending at {uv}%")},
+        "rates": {"big": "3.75&ndash;4.00%", "series": "FOMC target range", "tape_note": "Held Oct 28",
+                  "note": "Held on October 28, after a quarter-point raise in September.",
+                  "chart": spark_line(fed, f"Top of the federal funds target range from {ym(fed[0][0])} to {ym(fed[-1][0])}, ending at 4.00%", step=True)},
+    }
+
+
 def report_cards():
-    """Home: one photo card per report, linking to its spot in the guide."""
-    return "\n".join(f"""      <a class="pcard" href="guide.html#{r['id']}">
-        <figure class="card-photo">{card_img(r['photo'], r['alt'])}</figure>
-        <div class="pcard-body"><p class="tag"><code>{r['series']}</code></p><h3>{r['name']}</h3><p>{r['short']}</p></div>
+    """Home: one card per report with its newest number and the past 12 months."""
+    L = latest()
+    return "\n".join(f"""      <a class="dcard" href="guide.html#{r['id']}">
+        <div class="icon">{ICONS[r['icon']]}</div>
+        <h3>{r['name']}</h3>
+        <p class="big n">{L[r['id']]['big']}</p>
+        <p class="dnote">{L[r['id']]['note']}</p>
+        {L[r['id']]['chart']}
+        <p class="tag"><code>{L[r['id']]['series']}</code></p>
       </a>""" for r in REPORTS)
+
+
+def tape():
+    """The strip under the home hero: the newest number from each report."""
+    L = latest()
+    cells = "\n".join(f'    <li><span class="t-name">{r["name"]}</span><span class="t-num n">{L[r["id"]]["big"]}</span><span class="t-note">{L[r["id"]]["tape_note"]}</span></li>'
+                      for r in REPORTS)
+    return f"""
+<section class="tape" aria-label="The newest number from each of the four reports">
+  <ul class="wrap">
+{cells}
+  </ul>
+</section>
+"""
+
+
+def sample_read():
+    """One read, written from the newest CPI report, the way the AI will write it."""
+    k, m = cpi_month()
+    yoy = cpi_yoy()
+    month = FULL[int(k[5:]) - 1]
+    return f"""
+<section id="read">
+  <div class="wrap split">
+    <div>
+      <h2>What a read looks like</h2>
+      <p class="lead">When a report comes out, the AI pulls the new numbers straight from the agency and writes up what changed in plain English.</p>
+      <p>This sample comes from the {ym(k, True)} Consumer Price Index. Every read will also show the trade the AI made on its paper account and the reason it gives.</p>
+    </div>
+    <article class="readcard" aria-label="Sample read of the {ym(k, True)} Consumer Price Index">
+      <header><span class="live" aria-hidden="true"></span><span class="rc-brand">{SITE_NAME}</span><span class="rc-src">CPI &middot; {ym(k)}</span></header>
+      <div class="rc-figs">
+        <div><p class="n">{m:+}%</p><p>prices in {month}</p></div>
+        <div><p class="n">{yoy[-1][1]}%</p><p>over 12 months</p></div>
+      </div>
+      <p class="rc-body">Prices rose {m}% in {month} and {yoy[-1][1]}% over the past year, up from {yoy[-2][1]}% in {FULL[int(yoy[-2][0][5:]) - 1]}. Faster inflation gives the Federal Reserve a reason to keep interest rates high. It raised its target range in September and held it at 3.75 to 4% on October 28.</p>
+      <dl>
+        <dt>For your money</dt><dd>Credit cards and other loans tied to rates can stay expensive. Savings accounts can keep paying more.</dd>
+        <dt>Next to watch</dt><dd>The Fed's next decision, December 9 at 2:00 p.m. Eastern.</dd>
+        <dt>Paper trade</dt><dd>Posted with every read once version one goes live.</dd>
+      </dl>
+      <footer>Sample read. Paper trading only, with no real money. Not investment advice.</footer>
+    </article>
+  </div>
+</section>
+"""
 
 
 # ---------------------------------------------------------------- home
@@ -300,20 +457,21 @@ def index():
     return head(t, d, "", schema, BANNER_PRELOAD) + nav("index.html") + f"""
 <main id="main">
 
-<header class="banner">
-  <picture>
-    <source media="(max-width: 860px)" srcset="images/banner-m-600.webp 600w, images/banner-m-900.webp 900w" sizes="100vw">
-    <img src="images/banner-1600.webp" srcset="images/banner-1000.webp 1000w, images/banner-1600.webp 1600w, images/banner-2400.webp 2400w" sizes="100vw" width="1600" height="800" alt="A smiling man in his kitchen holding a coffee mug and reading his phone" fetchpriority="high" decoding="async">
-  </picture>
-  <div class="wrap">
-    <div class="banner-text">
+<header class="hero">
+  <div class="wrap split">
+    <div class="hero-copy">
       <h1>Economic news <span>made simple.</span></h1>
-      <div class="btn-row">
-        <a href="guide.html" class="btn light">Download the Free Report Guide</a>
-      </div>
+      <div class="btn-row start"><a href="guide.html" class="btn">Download the Free Report Guide</a></div>
     </div>
+    <figure class="hero-photo">
+      <picture>
+        <source media="(max-width: 860px)" srcset="images/hero-m-600.webp 600w, images/hero-m-900.webp 900w" sizes="100vw">
+        <img src="images/hero-900.webp" srcset="images/hero-600.webp 600w, images/hero-900.webp 900w, images/hero-1200.webp 1200w" sizes="(max-width: 860px) 100vw, 460px" width="900" height="1125" alt="A man in glasses reading the news on his phone by a river at night" fetchpriority="high" decoding="async">
+      </picture>
+    </figure>
   </div>
 </header>
+{tape()}
 
 <section id="problem" class="band">
   <div class="wrap split flip">
@@ -358,13 +516,14 @@ def index():
   </div>
 </section>
 
-<section id="reports">
+{sample_read()}
+<section id="reports" class="band">
   <div class="wrap">
     <div class="section-head center">
       <h2>Four reports the AI reads first</h2>
-      <p>Each one comes straight from the agency that publishes it, by its series ID.</p>
+      <p>The newest number from each one, with the past 12 months. As of {AS_OF}.</p>
     </div>
-    <div class="pcards four">
+    <div class="dcards">
 {report_cards()}
     </div>
   </div>
