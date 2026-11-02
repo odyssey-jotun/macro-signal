@@ -108,7 +108,7 @@ PERSON = {
 def head(title, desc, path="", schema=None, pre=""):
     url = SITE + path
     graph = [{"@type": "WebSite", "@id": SITE + "#site", "url": SITE, "name": SITE_NAME,
-              "description": "An AI agent that reads inflation, interest rate and jobs data and explains every paper trade it makes.",
+              "description": "The economy, read for you. An AI that reads the four economic reports that move the market and explains each one in plain English.",
               "author": {"@id": SITE + "#julian"}, "inLanguage": "en-US"}, PERSON]
     graph += schema or []
     ld = json.dumps({"@context": "https://schema.org", "@graph": graph}, separators=(",", ":"))
@@ -294,8 +294,8 @@ def report_cards():
 # ---------------------------------------------------------------- home
 def index():
     t = f"An AI Agent That Reads the Economic News for Investors | {SITE_NAME}"
-    d = ("I'm building an AI agent that reads inflation, interest rate and jobs data, "
-         "makes paper trades and explains the reasoning behind each one.")
+    d = ("I'm building an AI that reads the four economic reports that move the market the day they come out "
+         "and explains each one in plain English.")
     schema = [page_schema("WebPage", "", t, d, {"about": "AI analysis of economic data for everyday investors"})]
     return head(t, d, "", schema, BANNER_PRELOAD) + nav("index.html") + f"""
 <main id="main">
