@@ -108,7 +108,7 @@ PERSON = {
 def head(title, desc, path="", schema=None, pre=""):
     url = SITE + path
     graph = [{"@type": "WebSite", "@id": SITE + "#site", "url": SITE, "name": SITE_NAME,
-              "description": "Know what the economic news means for your money. An AI that reads the four economic reports that move the market and explains each one in plain English.",
+              "description": "Economic news made simple. An AI that reads the four economic reports that move the market and explains each one in plain English.",
               "author": {"@id": SITE + "#julian"}, "inLanguage": "en-US"}, PERSON]
     graph += schema or []
     ld = json.dumps({"@context": "https://schema.org", "@graph": graph}, separators=(",", ":"))
@@ -131,7 +131,7 @@ def head(title, desc, path="", schema=None, pre=""):
 <meta property="og:image" content="{SITE}images/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Know what the economic news means for your money. An AI that explains the economic reports in plain English.">
+<meta property="og:image:alt" content="Economic news made simple. An AI that explains the economic reports in plain English.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 {pre}<link rel="preload" href="fonts/plex-sans-700.woff2" as="font" type="font/woff2" crossorigin>
@@ -307,7 +307,7 @@ def index():
   </picture>
   <div class="wrap">
     <div class="banner-text">
-      <h1>Know what the economic news <span>means for your money.</span></h1>
+      <h1>Economic news <span>made simple.</span></h1>
       <div class="btn-row">
         <a href="guide.html" class="btn light">Download the Free Report Guide</a>
       </div>

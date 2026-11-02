@@ -31,16 +31,14 @@ Every line on this page has to pass all four.
 
 ### Tagline
 
-**Know what the economic news means for your money.**
+**Economic news made simple.**
 
-It comes straight from the end-result soundbite. It passes the four rules:
+Four words in Miller's "Senior living made fun" pattern: the category, then the offer. It passes the four rules:
 
-1. **Zero cognitive load:** plain words, no finance terms.
-2. **Survival:** your money.
-3. **Repeatable:** one sentence that someone can say back.
-4. **Customer as hero:** the reader is the one who knows.
-
-It names the category, economic news, and the offer, understanding what that news means for the reader. Plan step 3 on the site repeats it.
+1. **Zero cognitive load:** four plain words.
+2. **Survival:** simple means less time and less worry. The elevator pitch carries the money link.
+3. **Repeatable:** someone can say it back after hearing it once.
+4. **Customer as hero:** the news gets simple for the reader.
 
 ### Elevator pitch
 
