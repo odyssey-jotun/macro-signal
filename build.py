@@ -108,7 +108,7 @@ PERSON = {
 def head(title, desc, path="", schema=None, pre=""):
     url = SITE + path
     graph = [{"@type": "WebSite", "@id": SITE + "#site", "url": SITE, "name": SITE_NAME,
-              "description": "Economic news made simple. An AI that reads the four economic reports that move the market and explains each one in plain English.",
+              "description": "Deep economics made instant. An AI that reads the four economic reports that move the market and explains each one in plain English.",
               "author": {"@id": SITE + "#julian"}, "inLanguage": "en-US"}, PERSON]
     graph += schema or []
     ld = json.dumps({"@context": "https://schema.org", "@graph": graph}, separators=(",", ":"))
@@ -131,7 +131,7 @@ def head(title, desc, path="", schema=None, pre=""):
 <meta property="og:image" content="{SITE}images/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Economic news made simple. An AI that explains the economic reports in plain English.">
+<meta property="og:image:alt" content="Deep economics made instant. An AI that explains the economic reports in plain English.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 {pre}<link rel="preload" href="fonts/plex-sans-700.woff2" as="font" type="font/woff2" crossorigin>
@@ -460,7 +460,7 @@ def index():
 <header class="hero">
   <div class="wrap split">
     <div class="hero-copy">
-      <h1>Economic news <span>made simple.</span></h1>
+      <h1>Deep economics <span>made instant.</span></h1>
       <div class="btn-row start"><a href="guide.html" class="btn">Download the Free Report Guide</a></div>
     </div>
     <figure class="hero-photo">
@@ -475,7 +475,7 @@ def index():
 
 <section id="problem" class="band">
   <div class="wrap split flip">
-    {photo("newspaper", "A man at a cafe table reading the business section of the newspaper, hand on his chin", tall=True)}
+    {photo("subway", "A man in a black hoodie and backpack hunched over his phone on an empty subway car", tall=True)}
     <div>
       <h2>Keeping up with the economy takes hours</h2>
       <p class="lead">Inflation reports, jobs numbers and interest rate decisions arrive every month, spread across many different sources.</p>
@@ -490,19 +490,20 @@ def index():
 </section>
 
 <section id="about">
-  <div class="wrap split flip">
-    {portrait("julian", "Julian Sassoon in a blue and green checked shirt, smiling against a white wall")}
+  <div class="wrap split">
     <div>
       <h2>I kept missing the news during class</h2>
       <p>I'm Julian Sassoon, a junior in Georgia. I've spent six years learning how markets work and testing trading strategies. My problem was always time. Big economic reports come out during the school day, and by the time I could look, the market had already moved.</p>
       <p>So I'm building an AI agent that reads the economic data for me. It pulls inflation, interest rate and jobs numbers straight from the Bureau of Labor Statistics and the Federal Reserve, decides what to trade, and explains why. I've already built a trading journal and a position-size calculator with Codex, and I've been experimenting with AI agents since Auto-GPT.</p>
       <div class="btn-row start"><a href="research.html" class="btn ghost">Read the research</a></div>
     </div>
+    {portrait("julian", "Julian Sassoon in a blue and green checked shirt, smiling against a white wall")}
   </div>
 </section>
 
 <section id="plan" class="band">
-  <div class="wrap split">
+  <div class="wrap split flip">
+    {photo("letter", "A smiling couple reading a page together at their kitchen table over breakfast")}
     <div>
       <h2>Understand the economic news in three steps</h2>
       <ol class="steps-list">
@@ -512,7 +513,6 @@ def index():
       </ol>
       <div class="btn-row start"><a href="guide.html" class="btn">Download the Free Report Guide</a></div>
     </div>
-    {photo("letter", "A smiling couple reading a page together at their kitchen table over breakfast")}
   </div>
 </section>
 

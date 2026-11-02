@@ -36,9 +36,9 @@ Every line on this page has to pass all four.
 Four words in Miller's "Senior living made fun" pattern: the category, then the offer. It passes the four rules:
 
 1. **Zero cognitive load:** four plain words.
-2. **Survival:** simple means less time and less worry. The elevator pitch carries the money link.
-3. **Repeatable:** someone can say it back after hearing it once.
-4. **Customer as hero:** the news gets simple for the reader.
+2. **Survival:** instant means the read arrives the morning a report comes out, before prices move. The elevator pitch carries the money link.
+3. **Repeatable:** "deep" and "instant" pull against each other, and that tension makes the line stick.
+4. **Customer as hero:** the reader has the depth without the hours of research.
 
 ### Elevator pitch
 

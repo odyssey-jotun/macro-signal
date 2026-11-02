@@ -12,7 +12,7 @@ For when someone asks what I'm working on. Thirty seconds, memorized.
 
 **Instagram** (150 characters)
 
-> Economic news made simple. An AI explains the four reports that move the market. Sign up free below.
+> Deep economics made instant. An AI explains the four reports that move the market. Sign up free below.
 
 **LinkedIn headline**
 
@@ -26,12 +26,12 @@ For when someone asks what I'm working on. Thirty seconds, memorized.
 
 **YouTube channel description**
 
-> Economic news made simple. Each week I show what my AI read in the newest economic reports, what it traded on a paper account with no real money, and why. Sign up free on my site for the AI's read of each report.
+> Deep economics made instant. Each week I show what my AI read in the newest economic reports, what it traded on a paper account with no real money, and why. Sign up free on my site for the AI's read of each report.
 
 ## Email signature
 
 > Julian Sassoon  
-> Macro Signal: Economic news made simple.  
+> Macro Signal: Deep economics made instant.  
 > Free report guide: odyssey-jotun.github.io/macro-signal/guide.html
 
 ## Teaser posts
@@ -96,4 +96,4 @@ The brand story, read to camera. About 150 words.
 >
 > Sign up free for Macro Signal at the link below, and the AI's read of the next report comes straight to your inbox.
 >
-> [On screen: Economic news made simple. Student project. Paper trading only. Not investment advice.]
+> [On screen: Deep economics made instant. Student project. Paper trading only. Not investment advice.]

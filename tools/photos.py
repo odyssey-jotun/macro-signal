@@ -64,7 +64,6 @@ def crop(im, ratio, fx=0.5, fy=0.5):
 
 # Section photos (4:3), all Unsplash. name: (id, focus x, focus y)
 SECTIONS = {
-    "newspaper": ("Em40ER_I88Y", 0.5, 0.42),   # man reading the business pages over coffee
     "letter": ("mTtTJE6SU78", 0.45, 0.5),      # couple reading a page together at breakfast
     "paperwork": ("WyyP2PsmwKw", 0.5, 0.5),    # couple going over papers at the kitchen table
     "screens": ("vKNRKjSNbTo", 0.5, 0.62),     # trading charts on a tablet and monitors
@@ -80,7 +79,7 @@ for name, (src, fx, fy) in SECTIONS.items():
 
 # Tall versions (4:5) for sections whose text runs long beside the photo.
 TALL = {
-    "newspaper-t": ("Em40ER_I88Y", 0.5, 0.3),
+    "subway-t": ("subway", 0.22, 0.5),           # man on his phone on an empty subway car at night
     "paperwork-t": ("WyyP2PsmwKw", 0.5, 0.5),
     "chart-phone-t": ("K5mPtONmpHM", 0.2, 0.5),
 }
@@ -127,8 +126,8 @@ d = ImageDraw.Draw(card)
 font = ImageFont.truetype("tools/font-src/IBMPlexSans-Bold.ttf", 92)
 small = ImageFont.truetype("tools/font-src/IBMPlexSans-Bold.ttf", 34)
 d.line([(96, 150), (190, 110), (260, 135), (380, 70)], fill=(111, 211, 166), width=8, joint="curve")
-d.text((96, 200), "Economic news", font=font, fill=(255, 255, 255))
-d.text((96, 310), "made simple.", font=font, fill=(111, 211, 166))
+d.text((96, 200), "Deep economics", font=font, fill=(255, 255, 255))
+d.text((96, 310), "made instant.", font=font, fill=(111, 211, 166))
 d.text((96, 460), "An AI that explains the economic reports in plain English", font=small, fill=(174, 187, 204))
 card.save("images/og.jpg", quality=88)
 print("wrote og.jpg")
