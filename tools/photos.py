@@ -41,6 +41,73 @@ for name, src, x in (("laptop", "ztYmIQecyH4", 177), ("phone", "z6w4T4tAOxI", 12
         im.resize((tw, round(tw * 3 / 4)), Image.LANCZOS).save(f"images/{name}-{tw}.webp", quality=74, method=6)
     print("wrote", name)
 
+def crop(im, ratio, fx=0.5, fy=0.5):
+    """The largest crop at `ratio`, placed by focus point (0-1 on each axis)."""
+    w, h = im.size
+    if w / h > ratio:
+        nw = round(h * ratio); x = round((w - nw) * fx); return im.crop((x, 0, x + nw, h))
+    nh = round(w / ratio); y = round((h - nh) * fy); return im.crop((0, y, w, y + nh))
+
+
+# Section photos (4:3), all Unsplash. name: (id, focus x, focus y)
+SECTIONS = {
+    "newspaper": ("Em40ER_I88Y", 0.5, 0.42),   # man reading the business pages over coffee
+    "letter": ("mTtTJE6SU78", 0.45, 0.5),      # couple reading a page together at breakfast
+    "paperwork": ("WyyP2PsmwKw", 0.5, 0.5),    # couple going over papers at the kitchen table
+    "screens": ("vKNRKjSNbTo", 0.5, 0.62),     # trading charts on a tablet and monitors
+    "chart-phone": ("K5mPtONmpHM", 0.35, 0.5), # phone held up in front of a stock chart
+    "students-phones": ("QCNJ3xGnFR4", 0.5, 0.5),
+    "friends-phone": ("Y4zNMW3pQAs", 0.6, 0.5),
+}
+for name, (src, fx, fy) in SECTIONS.items():
+    im = grade(crop(Image.open(f"images/originals/{src}.jpg"), 4 / 3, fx, fy))
+    for tw in (600, 900):
+        im.resize((tw, round(tw * 3 / 4)), Image.LANCZOS).save(f"images/{name}-{tw}.webp", quality=74, method=6)
+    print("wrote", name)
+
+# Tall versions (4:5) for sections whose text runs long beside the photo.
+TALL = {
+    "newspaper-t": ("Em40ER_I88Y", 0.5, 0.3),
+    "paperwork-t": ("WyyP2PsmwKw", 0.5, 0.5),
+    "chart-phone-t": ("K5mPtONmpHM", 0.2, 0.5),
+}
+for name, (src, fx, fy) in TALL.items():
+    im = grade(crop(Image.open(f"images/originals/{src}.jpg"), 4 / 5, fx, fy))
+    for tw in (600, 900):
+        im.resize((tw, round(tw * 5 / 4)), Image.LANCZOS).save(f"images/{name}-{tw}.webp", quality=74, method=6)
+    print("wrote", name)
+
+# Research hero: a student studying in a library reading room
+# (Unsplash klbApl9mxr0), cropped in close on her desk.
+im = grade(Image.open("images/originals/klbApl9mxr0.jpg").crop((1080, 560, 2400, 1550)))
+for tw in (600, 900):
+    im.resize((tw, round(tw * 3 / 4)), Image.LANCZOS).save(f"images/library-{tw}.webp", quality=74, method=6)
+print("wrote library")
+
+# Report card photos (4:3, smaller), one per report.
+CARDS = {
+    "r-cpi": ("zE95fhGitc0", 0.45, 0.5),        # family shopping at the supermarket
+    "r-jobs": ("UQ716eQauSw", 0.62, 0.5),       # "now hiring" sign in a shop window
+    "r-unemployment": ("pg2eJwNVpvY", 0.55, 0.5),  # job interview
+    "r-rates": ("bqUZEAeWuok", 0.3, 0.5),       # keys to a new home
+}
+for name, (src, fx, fy) in CARDS.items():
+    im = grade(crop(Image.open(f"images/originals/{src}.jpg"), 4 / 3, fx, fy))
+    for tw in (480, 720):
+        im.resize((tw, round(tw * 3 / 4)), Image.LANCZOS).save(f"images/{name}-{tw}.webp", quality=74, method=6)
+    print("wrote", name)
+
+# Closing banner: three friends laughing over dinner (Unsplash xzPq2pQxAFk).
+# 8:3 for laptops, cropped so faces sit in the top third, above the text;
+# 4:3 for phones.
+im = grade(Image.open("images/originals/xzPq2pQxAFk.jpg"))
+wide, tall = crop(im, 8 / 3, 0.5, 0.43), crop(im, 4 / 3, 0.62, 0.5)
+for tw in (1000, 1600, 2400):
+    wide.resize((tw, tw * 3 // 8), Image.LANCZOS).save(f"images/closing-{tw}.webp", quality=72, method=6)
+for tw in (600, 900):
+    tall.resize((tw, round(tw * 3 / 4)), Image.LANCZOS).save(f"images/closing-m-{tw}.webp", quality=72, method=6)
+print("wrote closing")
+
 # Link preview (og.jpg): the tagline on terminal navy. Never Julian's face.
 card = Image.new("RGB", (1200, 630), (13, 27, 46))
 d = ImageDraw.Draw(card)

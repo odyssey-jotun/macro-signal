@@ -114,18 +114,9 @@ section{ padding: var(--flow-section) 0; }
 h2{ font-size: clamp(1.75rem, 3.2vw, 2.4rem); }
 .section-head p{ color: var(--ink-soft); font-size: 1.08rem; }
 
-/* ---------------- home hero ---------------- */
-.hero{ background: var(--primary-dk); color: var(--on-dark); padding: 64px 0 72px; overflow: hidden; }
-.hero2{ display: grid; grid-template-columns: 1.25fr 0.75fr; gap: 56px; align-items: center; }
-.hero2-text{ text-align: center; }
-.hero h1{ color: #FFFFFF; font-size: clamp(2.4rem, 5vw, 3.9rem); }
-.hero h1 span{ display: block; color: var(--mint); }
-.portrait{ margin: 0; aspect-ratio: 4/5; border-radius: var(--radius-lg); overflow: hidden; width: 100%; max-width: 440px; justify-self: center; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.6); }
-.portrait img{ display:block; width:100%; height:100%; object-fit: cover; }
-@media (prefers-reduced-motion: no-preference){
-  .hero2-text{ animation: rise 0.7s cubic-bezier(.2,.7,.2,1) 0.1s both; }
-}
 @keyframes rise{ from{ opacity: 0; transform: translateY(18px); } to{ opacity: 1; transform: none; } }
+.portrait{ margin: 0; aspect-ratio: 4/5; border-radius: var(--radius-lg); overflow: hidden; width: 100%; max-width: 440px; justify-self: center; box-shadow: 0 30px 60px -24px rgba(0,0,0,0.45); }
+.portrait img{ display:block; width:100%; height:100%; object-fit: cover; }
 
 /* ---------------- page hero ---------------- */
 .page-hero{ padding: 60px 0 64px; }
@@ -139,22 +130,13 @@ h2{ font-size: clamp(1.75rem, 3.2vw, 2.4rem); }
 .photo{ margin: 0; border-radius: var(--radius); overflow:hidden; aspect-ratio: 4/3; background: var(--bg-alt); box-shadow: 0 20px 40px -24px rgba(13,27,46,0.55); }
 .photo img{ display:block; width:100%; height:100%; object-fit: cover; }
 
-/* ---------------- cards ---------------- */
-.cards{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-.card{ background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px 26px 28px; text-align: center; }
-.card h3{ font-size: 1.24rem; }
-.card p{ font-size: 1rem; color: var(--ink-soft); }
 .icon{
-  width: 64px; height: 64px; border-radius: 18px;
+  width: 56px; height: 56px; border-radius: 16px;
   background: var(--bg-alt); color: var(--primary);
   display:flex; align-items:center; justify-content:center;
-  margin: 0 auto 18px;
+  margin: 0 auto 16px;
 }
-.icon svg{ width: 36px; height: 36px; }
-a.card{ text-decoration: none; color: inherit; transition: border-color 0.15s ease; }
-a.card:hover{ border-color: var(--blue); }
-a.card:hover h3{ color: var(--blue); }
-.card .to{ font-size: 0.95rem; font-weight: 700; color: var(--primary); margin: 0; }
+.icon svg{ width: 28px; height: 28px; }
 
 .punch{
   font-weight: 700; font-size: clamp(1.2rem, 2.2vw, 1.45rem);
@@ -162,28 +144,10 @@ a.card:hover h3{ color: var(--blue); }
   max-width: 720px; margin: var(--flow-block) auto 0;
 }
 
-/* ---------------- plan steps ---------------- */
-.steps{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns: repeat(3, 1fr); gap: 22px; counter-reset: step; }
-.steps li{ background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 26px; counter-increment: step; text-align: center; }
-.steps li:before{
-  content: counter(step);
-  display:flex; align-items:center; justify-content:center;
-  width: 46px; height: 46px; border-radius: 50%;
-  background: var(--primary); color:#FFFFFF; font-weight:700; font-size: 1.2rem; font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  margin: 0 auto 18px;
-}
-.steps h3{ font-size: 1.24rem; }
-.steps p{ font-size: 1rem; color: var(--ink-soft); }
-
 /* ---------------- stakes (dark band) ---------------- */
 .after{ background: var(--primary-dk); color: var(--on-dark); }
 .after h2, .after h3{ color: #FFFFFF; }
 .after .section-head p{ color: var(--on-dark-soft); }
-.facts{ display:grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-.fact{ background: rgba(255,255,255,0.06); border: 1px solid rgba(238,245,242,0.18); border-radius: var(--radius); padding: 28px 26px; text-align: center; }
-.fact .icon{ background: rgba(111,211,166,0.14); color: var(--mint); }
-.fact h3{ font-size: 1.24rem; }
-.fact p{ color: var(--on-dark); font-size: 1rem; }
 .after .cite-line{ color: var(--on-dark-soft); text-align: center; }
 
 /* ---------------- closing CTA ---------------- */
@@ -205,17 +169,9 @@ footer ul a:hover{ color: var(--mint); }
 
 /* ---------------- responsive ---------------- */
 @media (max-width: 860px){
-  .hero2, .split, .split.flip{ grid-template-columns: 1fr; gap: 30px; }
-  .hero .portrait{ order: -1; max-width: 340px; }
+  .split, .split.flip{ grid-template-columns: 1fr; gap: 30px; }
   .split > .portrait, .split > .photo{ order: -1; }
   .page-hero .portrait{ max-width: 340px; }
-  .cards, .steps, .facts{ grid-template-columns: 1fr; }
-  .cards.preview{ grid-template-columns: 1fr 1fr; gap: 12px; }
-  .cards.preview .card{ padding: 20px 12px; }
-  .cards.preview .icon{ width: 52px; height: 52px; margin-bottom: 10px; }
-  .cards.preview h3{ font-size: 1.06rem; }
-  .cards.preview .to{ font-size: 0.86rem; }
-  .hero{ padding: 32px 0 56px; }
 }
 @media (max-width: 620px){
   :root{ --flow-section: 56px; --flow-block: 34px; }
@@ -224,99 +180,16 @@ footer ul a:hover{ color: var(--mint); }
   .page-hero{ padding: 28px 0 44px; }
   .btn-row .btn{ width: 100%; }
   .wordmark{ font-size: 1.14rem; }
+  /* the wordmark already links home, so phones drop the Home link to fit one row */
+  nav.site ul li:first-child{ display: none; }
+  nav.site ul{ margin-left: -8px; font-size: 0.94rem; }
+  nav.site ul a{ padding: 0 8px; }
 }
 
-/* ---------------- data readouts ---------------- */
-.stat, .card .stat, .fact .stat{ font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight: 500; font-size: 2rem; line-height: 1.1; color: var(--primary); margin: 0 0 10px; letter-spacing: -0.02em; }
-.after .stat, .fact .stat{ color: var(--mint); }
-.series{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
-.series .card{ padding: 26px 20px; }
-.series code{ display:inline-block; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight: 500; font-size: 0.92rem; color: var(--primary); background: var(--bg-alt); border-radius: 6px; padding: 3px 9px; margin-bottom: 12px; }
-.band .series code{ background: var(--bg-alt); }
-.build{ list-style:none; margin:0 auto; padding:0; max-width: 760px; display:grid; gap: 14px; counter-reset: step; }
-.build li{ display:grid; grid-template-columns: 46px 1fr; gap: 0 18px; align-items:start; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 24px; counter-increment: step; }
-.build li:before{ content: counter(step); grid-row: span 2; display:flex; align-items:center; justify-content:center; width:46px; height:46px; border-radius:50%; background: var(--primary); color:#FFFFFF; font-family:'IBM Plex Mono', ui-monospace, monospace; font-weight:500; font-size:1.2rem; }
-.build h3{ font-size: 1.18rem; }
-.build p{ color: var(--ink-soft); font-size: 1rem; }
+/* ---------------- updates note ---------------- */
 .note{ max-width: 680px; margin: 0 auto; text-align:center; background: var(--card); border: 1px dashed rgba(29,79,134,0.45); border-radius: var(--radius); padding: 28px 26px; }
 .note p{ color: var(--ink-soft); }
 footer .disclaimer{ flex-basis: 100%; font-size: 0.88rem; color: var(--on-dark-soft); }
-@media (max-width: 860px){
-  .series{ grid-template-columns: 1fr 1fr; gap: 12px; }
-  .series .card{ padding: 20px 12px; }
-}
-@media (max-width: 620px){
-  .build li{ grid-template-columns: 1fr; text-align:center; padding: 22px 20px; }
-  .build li:before{ grid-row: auto; margin: 0 auto 12px; }
-}
-
-/* ------------------------------------------------------------------
-   Julian's own look: data readouts, a timeline, a terminal panel and
-   bars drawn from the cited numbers.
-   ------------------------------------------------------------------ */
-.hero2{ grid-template-columns: 0.75fr 1.25fr; }
-.hero h1{ font-size: clamp(2.6rem, 5.6vw, 4.4rem); }
-
-/* problem: three readouts on a shared axis line */
-.readouts{ display:grid; grid-template-columns: repeat(3, 1fr); border-top: 3px solid var(--primary); }
-.readout{ padding: 30px 28px 6px; text-align:center; }
-.readout + .readout{ border-left: 1px solid var(--line); }
-.readout .icon{ width:auto; height:auto; background:none; margin: 0 auto 10px; }
-.readout .icon svg{ width: 34px; height: 34px; }
-.readout .stat{ font-size: 2.4rem; color: var(--primary); }
-.readout h3{ font-size: 1.2rem; }
-.readout p{ font-size: 1rem; color: var(--ink-soft); }
-
-/* plan: numbered stops on one line */
-.timeline{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns: repeat(3, 1fr); gap: 28px; counter-reset: step; position: relative; }
-.timeline:before{ content:""; position:absolute; left: 16.6%; right: 16.6%; top: 23px; height: 2px; background: var(--primary); opacity: .35; }
-.timeline li{ counter-increment: step; text-align:center; position: relative; }
-.timeline li:before{
-  content: counter(step); position: relative;
-  display:flex; align-items:center; justify-content:center;
-  width: 46px; height: 46px; border-radius: 50%;
-  background: var(--bg-alt); border: 2px solid var(--primary); color: var(--primary);
-  font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight:500; font-size: 1.2rem;
-  margin: 0 auto 18px;
-}
-.timeline h3{ font-size: 1.22rem; }
-.timeline p{ font-size: 1rem; color: var(--ink-soft); max-width: 22em; margin-left:auto; margin-right:auto; }
-
-/* data: a terminal window listing the series */
-.terminal{ max-width: 860px; margin: 0 auto; background: var(--primary-dk); border-radius: var(--radius); overflow:hidden; box-shadow: 0 24px 48px -28px rgba(13,27,46,0.7); }
-.terminal-bar{ display:flex; align-items:center; gap: 7px; margin:0; padding: 12px 18px; background: rgba(255,255,255,0.06); color: var(--on-dark-soft); font-family: 'IBM Plex Mono', ui-monospace, monospace; font-size: 0.85rem; }
-.terminal-bar span{ width: 10px; height: 10px; border-radius: 50%; background: rgba(233,239,246,0.25); }
-.terminal-bar span:last-of-type{ margin-right: 10px; }
-.series{ list-style:none; margin:0; padding: 6px 0; display:block; }
-.series li{ display:grid; grid-template-columns: 34px 150px 140px 1fr; gap: 16px; align-items:center; padding: 16px 22px; border-top: 1px solid rgba(233,239,246,0.08); }
-.series li:first-child{ border-top: 0; }
-.sicon{ color: var(--mint); display:flex; }
-.sicon svg{ width: 28px; height: 28px; }
-.series code{ font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight:500; font-size: 0.98rem; color: var(--mint); background:none; padding:0; margin:0; }
-.series h3{ color:#FFFFFF; font-size: 1.08rem; margin:0; }
-.series p{ color: var(--on-dark-soft); font-size: 0.98rem; margin:0; }
-
-/* stakes: bars */
-.bars{ display:grid; gap: 12px; margin: 18px 0 18px; text-align:left; }
-.bar{ display:grid; grid-template-columns: 120px 1fr 60px; gap: 12px; align-items:center; font-size: 0.95rem; }
-.bar .label{ color: var(--on-dark-soft); }
-.bar .fill{ display:block; height: 14px; border-radius: 4px; background: var(--on-dark-soft); }
-.bar.busy .fill{ background: #E8806F; }
-.bar .val{ font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight:500; color:#FFFFFF; text-align:right; }
-
-@media (max-width: 860px){
-  .hero2{ grid-template-columns: 1fr; }
-  .readouts{ grid-template-columns: 1fr; }
-  .readout + .readout{ border-left: 0; border-top: 1px solid var(--line); }
-  .readout{ padding: 26px 8px; }
-  .timeline{ grid-template-columns: 1fr; gap: 30px; }
-  .timeline:before{ left: 50%; right:auto; width: 2px; height: auto; top: 23px; bottom: 60px; transform: translateX(-1px); }
-  .timeline li{ background: var(--bg-alt); padding-bottom: 4px; }
-  .series li{ grid-template-columns: 28px 1fr; gap: 4px 14px; padding: 16px 18px; }
-  .series li .sicon{ grid-row: span 3; align-self:start; }
-  .bar{ grid-template-columns: 1fr 56px; }
-  .bar .label{ grid-column: 1 / -1; }
-}
 
 /* ---------------- home hero banner ----------------
    A full-width photo of a busy person checking the news over coffee. On
@@ -348,9 +221,10 @@ footer .disclaimer + .disclaimer{ margin-top: -4px; }
 
 /* ---------------- report guide ---------------- */
 .reports{ display:grid; grid-template-columns: 1fr 1fr; gap: 22px; }
-.report{ background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px 28px 26px; scroll-margin-top: 90px; }
-.report .icon{ width: 56px; height: 56px; border-radius: 16px; margin-bottom: 14px; }
-.report .icon svg{ width: 30px; height: 30px; }
+.report{ background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; scroll-margin-top: 90px; }
+.report-body{ padding: 26px 28px 26px; }
+.report .card-photo{ aspect-ratio: 16/9; }
+.report .icon{ margin-top: -54px; position: relative; border: 4px solid var(--card); width: 64px; height: 64px; }
 .report h3{ font-size: 1.3rem; text-align: center; }
 .report .series-id{ text-align:center; margin: 4px 0 14px; }
 .report .series-id code{ font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight:500; font-size: 0.9rem; color: var(--primary); background: var(--bg-alt); border-radius: 6px; padding: 3px 9px; }
@@ -369,7 +243,7 @@ footer .disclaimer + .disclaimer{ margin-top: -4px; }
 @media print{
   @page{ size: letter; margin: 0.45in 0.55in; }
   body{ font-size: 10.5pt; }
-  nav.site, footer, .skip, .page-hero .photo, .btn-row, .closing{ display: none !important; }
+  nav.site, footer, .skip, .page-hero .photo, .btn-row, .closing-banner, .card-photo, .refs{ display: none !important; }
   .page-hero{ padding: 0 0 18pt; }
   .page-hero .wrap, .page-hero .split{ display: block; padding: 0; }
   .page-hero h1{ font-size: 23pt; }
@@ -378,8 +252,9 @@ footer .disclaimer + .disclaimer{ margin-top: -4px; }
   .band{ background: none; }
   .wrap{ padding: 0; max-width: none; }
   .reports{ gap: 16pt; }
-  .report{ padding: 15pt 15pt; break-inside: avoid; border-color: #BFCBD9; border-radius: 12px; }
-  .report .icon{ width: 32px; height: 32px; border-radius: 9px; margin-bottom: 5pt; }
+  .report{ break-inside: avoid; border-color: #BFCBD9; border-radius: 12px; }
+  .report-body{ padding: 15pt 15pt; }
+  .report .icon{ width: 32px; height: 32px; border-radius: 9px; margin: 0 auto 5pt; border: 0; }
   .report .icon svg{ width: 17px; height: 17px; }
   .report h3{ font-size: 13.5pt; }
   .report .series-id{ margin: 2pt 0 7pt; }
@@ -388,4 +263,100 @@ footer .disclaimer + .disclaimer{ margin-top: -4px; }
   .report dl{ font-size: 9.4pt; line-height: 1.4; margin-top: 8pt; padding-top: 8pt; gap: 4pt 10pt; }
   .report dl{ grid-template-columns: 74pt 1fr; }
   .print-note{ font-size: 9pt; margin-top: 18pt; }
+}
+
+/* ---------------- photo-led sections ----------------
+   Every section pairs a photo with its text. Numbers set in Plex Mono,
+   the way a data terminal prints them. */
+.lead{ font-size: 1.12rem; color: var(--ink-soft); }
+.btn-row.start{ justify-content: flex-start; }
+.btn.ghost{ background: transparent; color: var(--primary); }
+.btn.ghost:hover{ background: var(--primary); color: #FFFFFF; border-color: var(--primary); }
+.btn.ghost-light{ background: transparent; color: #FFFFFF; border-color: #FFFFFF; }
+.btn.ghost-light:hover{ background: #FFFFFF; color: var(--primary-dk); }
+.cite-line.center{ text-align: center; }
+.n{ font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight: 500; letter-spacing: -0.02em; color: var(--primary); }
+
+.points, .statlist, .steps-list{ list-style: none; margin: 26px 0 0; padding: 0; display: grid; gap: 22px; }
+.points li{ display: grid; grid-template-columns: 56px 1fr; gap: 18px; align-items: start; }
+.points .icon{ margin: 0; }
+.points .n{ font-size: 1.3rem; line-height: 1.1; margin: 0 0 4px; }
+.points h3, .statlist h3, .steps-list h3{ font-size: 1.18rem; margin-bottom: 4px; }
+.split .points p:not(.n), .split .statlist p:not(.n), .split .steps-list p{ font-size: 1rem; color: var(--ink-soft); margin: 0; }
+.statlist li{ display: grid; grid-template-columns: 150px 1fr; gap: 18px; align-items: start; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+.statlist li:last-child{ border-bottom: 0; padding-bottom: 0; }
+.split .statlist .n{ font-size: 1.7rem; line-height: 1.1; margin: 0; color: var(--primary); }
+.steps-list{ counter-reset: step; }
+.steps-list li{ display: grid; grid-template-columns: 46px 1fr; gap: 18px; align-items: start; counter-increment: step; }
+.steps-list li:before{ content: counter(step); display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; border-radius: 50%; background: var(--primary); color: #FFFFFF; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight: 500; font-size: 1.2rem; }
+
+.pcards{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.pcard{ background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: border-color 0.15s ease, transform 0.2s ease; }
+a.pcard:hover{ border-color: var(--blue); transform: translateY(-3px); }
+a.pcard:hover h3{ color: var(--blue); }
+.card-photo{ margin: 0; aspect-ratio: 4/3; overflow: hidden; background: var(--bg-alt); }
+.card-photo img{ display: block; width: 100%; height: 100%; object-fit: cover; }
+.pcard-body{ padding: 18px 18px 22px; text-align: center; }
+.pcard-body h3{ font-size: 1.16rem; }
+.pcard-body p{ font-size: 0.98rem; color: var(--ink-soft); }
+.pcard .tag{ margin: 0 0 8px; }
+.pcard .tag code, .report .series-id code{ font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight: 500; font-size: 0.86rem; color: var(--primary); background: var(--bg-alt); border-radius: 6px; padding: 3px 9px; }
+
+/* stakes: photo beside two lists, x and check */
+.stakes-split{ display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 36px; align-items: center; }
+.stakes{ display: grid; gap: 22px; }
+.stake h3{ font-size: 1.26rem; margin-bottom: 12px; }
+.outcomes{ list-style:none; margin:0; padding:0; display:grid; gap: 10px; }
+.outcomes li{
+  display:grid; grid-template-columns: 24px 1fr; gap: 14px; align-items:start;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(233,239,246,0.16);
+  border-radius: 14px; padding: 14px 18px; color: var(--on-dark); font-size: 1rem;
+}
+.outcomes svg{ width: 22px; height: 22px; margin-top: 2px; color: #F2A597; }
+.stake.good .outcomes svg{ color: var(--mint); }
+.stake.good .outcomes li{ background: rgba(111,211,166,0.08); border-color: rgba(111,211,166,0.34); }
+.after .photo{ box-shadow: none; }
+
+/* research charts */
+.chart{ background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px 26px; margin: 22px 0; }
+.chart h3{ font-size: 1.12rem; margin-bottom: 14px; }
+.bars{ display: grid; gap: 12px; }
+.barline{ display: grid; grid-template-columns: 130px 1fr; gap: 12px; align-items: center; font-size: 0.94rem; font-weight: 600; color: var(--ink-soft); }
+.track{ height: 38px; background: var(--bg-alt); border-radius: 6px; }
+.bar{ display: flex; align-items: center; justify-content: flex-end; height: 100%; padding-right: 10px; border-radius: 6px; color: #FFFFFF; font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight: 500; min-width: 64px; }
+.bar.hi{ background: var(--red); }
+.bar.lo{ background: var(--primary); }
+.chart .cite-line{ margin-top: 14px; }
+.split p.after-chart{ margin-top: 0; }
+
+/* closing banner: an even shade over the whole photo and centered text,
+   so no face sits under a gradient edge */
+.closing-banner{ min-height: 480px; aspect-ratio: 8/3; align-items: flex-end; }
+.closing-banner::before{ background: rgba(13,27,46,0.72); }
+.closing-banner img{ object-position: 50% 0; }
+.closing-banner .wrap{ padding-bottom: 60px; }
+.closing-banner .banner-text{ margin: 0 auto; max-width: 640px; }
+.closing-banner h2{ color: #FFFFFF; font-size: clamp(2rem, 3.8vw, 3rem); }
+.closing-banner p{ color: var(--on-dark); font-size: 1.12rem; }
+.credits{ padding: 22px 0; border-top: 0; }
+.credits .cite-line{ margin: 0; }
+
+.photo.tall{ aspect-ratio: 4/5; max-width: 460px; width: 100%; justify-self: center; }
+@media (max-width: 1000px){ .pcards{ grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 860px){
+  .stakes-split{ grid-template-columns: 1fr; }
+  .statlist li{ grid-template-columns: 1fr; gap: 6px; }
+  .closing-banner{ aspect-ratio: auto; min-height: 0; }
+  .closing-banner .wrap{ padding-top: 30px; padding-bottom: 44px; }
+  .photo.tall{ aspect-ratio: 4/3; max-width: none; }
+}
+@media (max-width: 620px){
+  .pcards{ gap: 12px; }
+  .pcard-body{ padding: 12px 10px 14px; }
+  .pcard-body h3{ font-size: 1rem; }
+  .pcard-body p{ font-size: 0.88rem; line-height: 1.45; }
+  .pcard .tag code{ font-size: 0.7rem; padding: 2px 6px; }
+  .barline{ grid-template-columns: 1fr; gap: 4px; }
+  .chart{ padding: 20px 18px; }
+  .btn-row.start{ justify-content: center; }
 }

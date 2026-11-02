@@ -6,7 +6,9 @@ The site name lives in SITE_NAME below. Change it there, rebuild, and every
 page title, wordmark, footer and JSON-LD block follows. Copy and facts live
 in this file too, so a correction is made once.
 """
+import glob
 import json
+import os
 import re
 
 # ---------------------------------------------------------------- settings
@@ -24,36 +26,26 @@ SOURCES = {
     "overload": "Agnew, Julie R., and Lisa R. Szykman. <em>Asset Allocation and Information Overload.</em> Journal of Behavioral Finance 6, no. 2 (2005): 57-70.",
     "taiwan": "Barber, Brad M., Yi-Tsung Lee, Yu-Jane Liu and Terrance Odean. <em>Just How Much Do Individual Investors Lose by Trading?</em> Review of Financial Studies 22, no. 2 (2009): 609-632.",
     "hazardous": "Barber, Brad M., and Terrance Odean. <em>Trading Is Hazardous to Your Wealth: The Common Stock Investment Performance of Individual Investors.</em> Journal of Finance 55, no. 2 (2000): 773-806.",
+    "glitters": "Barber, Brad M., and Terrance Odean. <em>All That Glitters: The Effect of Attention and News on the Buying Behavior of Individual and Institutional Investors.</em> Review of Financial Studies 21, no. 2 (2008): 785-818.",
     "robinhood": "Barber, Brad M., Xing Huang, Terrance Odean and Christopher Schwarz. <em>Attention-Induced Trading and Returns: Evidence from Robinhood Users.</em> Journal of Finance 77, no. 6 (2022): 3141-3190.",
 }
 
 # ---------------------------------------------------------------- the data
-# The economic releases the agent reads first, by the series IDs their
-# publishers use: the Bureau of Labor Statistics and the Federal Reserve
-# Board. Both are public-domain U.S. government data. FRED is not used: its
-# terms forbid using FRED content to develop software or AI.
-SERIES = [
-    {"id": "CUSR0000SA0", "icon": "cart", "name": "Inflation", "text": "The Consumer Price Index, from the Bureau of Labor Statistics."},
-    {"id": "RIFSPFF_N.M", "icon": "bank", "name": "Interest rates", "text": "The federal funds rate, from the Federal Reserve Board."},
-    {"id": "CES0000000001", "icon": "people", "name": "Jobs", "text": "Payroll jobs from the monthly jobs report."},
-    {"id": "LNS14000000", "icon": "chart", "name": "Unemployment", "text": "The share of workers looking for a job."},
-]
-
 # The free guide: one card per report. Facts from the publishing agencies.
 REPORTS = [
-    {"id": "cpi", "icon": "cart", "name": "Consumer Price Index", "series": "CUSR0000SA0",
+    {"id": "cpi", "photo": "r-cpi", "alt": "A mother, father and young son shopping for groceries together", "short": "How fast prices are rising, from groceries to rent.", "icon": "shopping-cart", "name": "Consumer Price Index", "series": "CUSR0000SA0",
      "measures": "How much the prices people pay for everyday goods and services changed, from groceries and gas to rent.",
      "who": "U.S. Bureau of Labor Statistics", "when": "Monthly, around the middle of the month, at 8:30 a.m. Eastern",
      "why": "It is the best-known measure of inflation. When prices rise quickly, the Federal Reserve can keep interest rates higher for longer."},
-    {"id": "jobs", "icon": "people", "name": "Payroll jobs", "series": "CES0000000001",
+    {"id": "jobs", "photo": "r-jobs", "alt": "A red and white now hiring sign in a shop window", "short": "How many jobs employers added or cut last month.", "icon": "briefcase", "name": "Payroll jobs", "series": "CES0000000001",
      "measures": "How many jobs employers added or cut last month, outside of farm work.",
      "who": "U.S. Bureau of Labor Statistics, in the monthly jobs report", "when": "Usually the first Friday of the month, at 8:30 a.m. Eastern",
      "why": "It is one of the clearest signs of whether the economy is growing or slowing, and it often moves markets the morning it comes out."},
-    {"id": "unemployment", "icon": "chart", "name": "Unemployment rate", "series": "LNS14000000",
+    {"id": "unemployment", "photo": "r-unemployment", "alt": "A woman interviewing a job candidate across an office desk", "short": "The share of people looking for work.", "icon": "search", "name": "Unemployment rate", "series": "LNS14000000",
      "measures": "The share of people who want a job, are looking for one and don't have one.",
      "who": "U.S. Bureau of Labor Statistics, in the same jobs report", "when": "Usually the first Friday of the month, at 8:30 a.m. Eastern",
      "why": "The Federal Reserve's job is to keep prices stable and employment high, so it watches this number closely."},
-    {"id": "rates", "icon": "bank", "name": "Federal funds rate", "series": "RIFSPFF_N.M",
+    {"id": "rates", "photo": "r-rates", "alt": "A hand holding the keys to a new home", "short": "The rate that sets the cost of borrowing.", "icon": "landmark", "name": "Federal funds rate", "series": "RIFSPFF_N.M",
      "measures": "The interest rate banks charge each other to borrow overnight. The Federal Reserve sets a target range for it.",
      "who": "Federal Reserve", "when": "Decided at eight scheduled meetings a year, announced at 2:00 p.m. Eastern",
      "why": "It ripples out to the rates on mortgages, car loans, credit cards and savings accounts."},
@@ -84,10 +76,15 @@ def portrait(name, alt, eager=False):
             f'sizes="{PORTRAIT_SIZES}" width="800" height="1000" alt="{alt}" {load} decoding="async"></figure>')
 
 
-def photo(name, alt, eager=False):
+def photo(name, alt, eager=False, tall=False):
+    """A 4:3 section photo, or a 4:5 one (tall=True) beside long text."""
     load = 'fetchpriority="high"' if eager else 'loading="lazy"'
-    return (f'<figure class="photo"><img src="images/{name}-900.webp" srcset="images/{name}-600.webp 600w, images/{name}-900.webp 900w" '
-            f'sizes="(max-width: 860px) calc(100vw - 40px), 520px" width="900" height="675" alt="{alt}" {load} decoding="async"></figure>')
+    if tall:
+        name, cls, h = name + "-t", "photo tall", 1125
+    else:
+        cls, h = "photo", 675
+    return (f'<figure class="{cls}"><img src="images/{name}-900.webp" srcset="images/{name}-600.webp 600w, images/{name}-900.webp 900w" '
+            f'sizes="(max-width: 860px) calc(100vw - 40px), 520px" width="900" height="{h}" alt="{alt}" {load} decoding="async"></figure>')
 
 
 def preload(name):
@@ -155,7 +152,7 @@ def page_schema(kind, path, title, desc, extra=None):
     return d
 
 
-PAGES = [("index.html", "Home"), ("guide.html", "Report Guide"), ("updates.html", "Build Updates")]
+PAGES = [("index.html", "Home"), ("guide.html", "Report Guide"), ("research.html", "Research"), ("updates.html", "Build Updates")]
 
 
 def wordmark():
@@ -212,40 +209,86 @@ def sources(keys):
 """
 
 
-def cta(heading, text, href, label):
-    return f"""
-<section class="closing">
-  <div class="wrap">
-    <h2>{heading}</h2>
-    <p>{text}</p>
-    <div class="btn-row"><a href="{href}" class="btn">{label}</a></div>
-  </div>
-</section>
-"""
+def crumbs(name, path):
+    return {"@type": "BreadcrumbList", "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE},
+        {"@type": "ListItem", "position": 2, "name": name, "item": SITE + path}]}
 
 
 # ---------------------------------------------------------------- icons
-def svg(body, sw="2.6"):
-    return (f'<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="{sw}" stroke-linecap="round" '
+# Lucide icons (ISC license) from tools/icons/.
+def svg(body):
+    return (f'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
             f'stroke-linejoin="round" aria-hidden="true">{body}</svg>')
 
+
+ICONS = {}
+for f in glob.glob("tools/icons/*.svg"):
+    body = re.search(r"<svg[^>]*>(.*)</svg>", open(f).read(), flags=re.S).group(1)
+    ICONS[os.path.basename(f)[:-4]] = svg(re.sub(r"\s+", " ", body).replace(" />", "/>").strip())
 
 # A chart line closing up, on terminal navy.
 LINE = ('<rect width="32" height="32" rx="9" fill="#0D1B2E"/>'
         '<path d="M6 22l6-6 5 4 9-10" fill="none" stroke="#6FD3A6" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>'
         '<circle cx="26" cy="10" r="2.2" fill="#FFFFFF"/>')
 MARK = f'<svg class="mark" viewBox="0 0 32 32" aria-hidden="true">{LINE}</svg>'
-ICONS = {
-    "stack": svg('<rect x="8" y="8" width="26" height="9" rx="2"/><rect x="11" y="20" width="26" height="9" rx="2"/><rect x="14" y="32" width="26" height="9" rx="2"/>'),
-    "fog": svg('<circle cx="24" cy="24" r="17"/><path d="M19 19a5 5 0 1 1 7 4.6c-1.3.6-2 1.6-2 3V28"/><path d="M24 34v.5"/>'),
-    "scale": svg('<path d="M24 7v33M15 41h18M9 13h30"/><path d="M9 13L4 25h10zM39 13l-5 12h10z"/><path d="M4 25c0 3 2 5 5 5s5-2 5-5M34 25c0 3 2 5 5 5s5-2 5-5"/>'),
-    "cart": svg('<path d="M5 8h6l4 22h22l4-15H14"/><circle cx="18" cy="38" r="3"/><circle cx="34" cy="38" r="3"/>'),
-    "bank": svg('<path d="M6 18L24 7l18 11z"/><path d="M10 22v13M19 22v13M29 22v13M38 22v13M6 40h36"/>'),
-    "people": svg('<circle cx="17" cy="16" r="6"/><circle cx="33" cy="18" r="5"/><path d="M6 40c0-7 5-12 11-12s11 5 11 12M29 40c0-5 2-10 8-10 4 0 6 4 6 10"/>'),
-    "chart": svg('<path d="M7 7v34h34"/><path d="M13 31l8-9 7 5 11-14"/>'),
-    "headline": svg('<rect x="6" y="9" width="36" height="30" rx="3"/><path d="M12 16h24M12 23h11M12 30h11M28 23h8v7h-8z"/>'),
-    "drop": svg('<path d="M7 12l12 14 8-7 14 17"/><path d="M33 36h8v-8"/>'),
-}
+
+
+# ---------------------------------------------------------------- blocks
+def card_img(name, alt):
+    return (f'<img src="images/{name}-720.webp" srcset="images/{name}-480.webp 480w, images/{name}-720.webp 720w" '
+            f'sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 1000px) 45vw, 250px" width="720" height="540" alt="{alt}" loading="lazy" decoding="async">')
+
+
+def wide_banner(name, alt):
+    d = ", ".join(f"images/{name}-{w}.webp {w}w" for w in (1000, 1600, 2400))
+    m = ", ".join(f"images/{name}-m-{w}.webp {w}w" for w in (600, 900))
+    return (f'<picture><source media="(max-width: 860px)" srcset="{m}" sizes="100vw">'
+            f'<img src="images/{name}-1600.webp" srcset="{d}" sizes="100vw" width="1600" height="600" alt="{alt}" loading="lazy" decoding="async"></picture>')
+
+
+def closing_banner(heading, text, href, label, second=None):
+    extra = f'<a href="{second[0]}" class="btn ghost-light">{second[1]}</a>' if second else ""
+    return f"""
+<section class="banner closing-banner">
+  {wide_banner("closing", "Three friends laughing together over dinner at a restaurant table")}
+  <div class="wrap">
+    <div class="banner-text">
+      <h2>{heading}</h2>
+      <p>{text}</p>
+      <div class="btn-row"><a href="{href}" class="btn light">{label}</a>{extra}</div>
+    </div>
+  </div>
+</section>
+"""
+
+
+def points(items):
+    return "\n".join(f"""        <li>
+          <div class="icon">{ICONS[i]}</div>
+          <div><p class="n">{n}</p><h3>{h}</h3><p>{t}</p></div>
+        </li>""" for i, n, h, t in items)
+
+
+def statlist(items):
+    return "\n".join(f"""        <li><p class="n">{n}</p><div><h3>{h}</h3><p>{t}</p></div></li>""" for n, h, t in items)
+
+
+def outcomes(items, mark):
+    return "\n".join(f"          <li>{ICONS[mark]}<span>{t}</span></li>" for t in items)
+
+
+def bars(rows, top):
+    return "\n".join(f"""        <div class="barline"><span>{label}</span><div class="track"><span class="bar {cls}" style="width:{val / top * 100:.0f}%">{val:g}%</span></div></div>"""
+                     for label, val, cls in rows)
+
+
+def report_cards():
+    """Home: one photo card per report, linking to its spot in the guide."""
+    return "\n".join(f"""      <a class="pcard" href="guide.html#{r['id']}">
+        <figure class="card-photo">{card_img(r['photo'], r['alt'])}</figure>
+        <div class="pcard-body"><p class="tag"><code>{r['series']}</code></p><h3>{r['name']}</h3><p>{r['short']}</p></div>
+      </a>""" for r in REPORTS)
 
 
 # ---------------------------------------------------------------- home
@@ -254,12 +297,6 @@ def index():
     d = ("I'm building an AI agent that reads inflation, interest rate and jobs data, "
          "makes paper trades and explains the reasoning behind each one.")
     schema = [page_schema("WebPage", "", t, d, {"about": "AI analysis of economic data for everyday investors"})]
-    series = "\n".join(f"""      <li>
-        <span class="sicon">{ICONS[s['icon']]}</span>
-        <code>{s['id']}</code>
-        <h3>{s['name']}</h3>
-        <p>{s['text']}</p>
-      </li>""" for s in SERIES)
     return head(t, d, "", schema, BANNER_PRELOAD) + nav("index.html") + f"""
 <main id="main">
 
@@ -279,32 +316,18 @@ def index():
 </header>
 
 <section id="problem" class="band">
-  <div class="wrap">
-    <div class="section-head center">
+  <div class="wrap split flip">
+    {photo("newspaper", "A man at a cafe table reading the business section of the newspaper, hand on his chin", tall=True)}
+    <div>
       <h2>Keeping up with the economy takes hours</h2>
-      <p>Inflation reports, jobs numbers and interest rate decisions arrive every month, spread across many different sources.</p>
+      <p class="lead">Inflation reports, jobs numbers and interest rate decisions arrive every month, spread across many different sources.</p>
+      <ul class="points">
+{points([("layers", "75% &rarr; 60%", "More information, fewer investors", "In a study of 647 retirement plans, 75% of employees signed up when their plan offered two funds. When it offered 59, about 60% did."),
+         ("circle-help", "34%", "Overwhelmed and unsure", "Asked a basic question about spreading out investment risk, 34% of Americans answered &ldquo;do not know.&rdquo;"),
+         ("scale", "&minus;3.8 pts", "No one should need an economics degree to manage their own money", "In a study of every trade in Taiwan from 1995 to 1999, individual investors lost 3.8 percentage points a year to trading, while institutions gained 1.5.")])}
+      </ul>
+      <p class="cite-line">Sources: Sethi-Iyengar, Huberman and Jiang, 2004; Lusardi and Mitchell, 2014; Barber, Lee, Liu and Odean, 2009.</p>
     </div>
-    <div class="readouts">
-      <div class="readout">
-        <div class="icon">{ICONS['stack']}</div>
-        <p class="stat">75% &rarr; 60%</p>
-        <h3>More information, fewer investors</h3>
-        <p>In a study of 647 retirement plans, 75% of employees signed up when their plan offered two funds. When it offered 59, about 60% did.</p>
-      </div>
-      <div class="readout">
-        <div class="icon">{ICONS['fog']}</div>
-        <p class="stat">34%</p>
-        <h3>Overwhelmed and unsure</h3>
-        <p>Asked a basic question about spreading out investment risk, 34% of Americans answered "do not know." Researchers found that people who knew less about investing were simply overwhelmed by the decision.</p>
-      </div>
-      <div class="readout">
-        <div class="icon">{ICONS['scale']}</div>
-        <p class="stat">&minus;3.8 pts</p>
-        <h3>No one should need an economics degree to manage their own money</h3>
-        <p>Professionals have analysts and software watching the market all day. In a study of every trade in Taiwan from 1995 to 1999, individual investors lost 3.8 percentage points a year to trading, while institutions gained 1.5.</p>
-      </div>
-    </div>
-    <p class="cite-line" style="text-align:center">Sources: Sethi-Iyengar, Huberman and Jiang, 2004; Lusardi and Mitchell, Journal of Economic Literature, 2014; Agnew and Szykman, Journal of Behavioral Finance, 2005; Barber, Lee, Liu and Odean, Review of Financial Studies, 2009.</p>
   </div>
 </section>
 
@@ -315,94 +338,215 @@ def index():
       <h2>I kept missing the news during class</h2>
       <p>I'm Julian Sassoon, a junior in Georgia. I've spent six years learning how markets work and testing trading strategies. My problem was always time. Big economic reports come out during the school day, and by the time I could look, the market had already moved.</p>
       <p>So I'm building an AI agent that reads the economic data for me. It pulls inflation, interest rate and jobs numbers straight from the Bureau of Labor Statistics and the Federal Reserve, decides what to trade, and explains why. I've already built a trading journal and a position-size calculator with Codex, and I've been experimenting with AI agents since Auto-GPT.</p>
+      <div class="btn-row start"><a href="research.html" class="btn ghost">Read the research</a></div>
     </div>
   </div>
 </section>
 
 <section id="plan" class="band">
-  <div class="wrap">
-    <div class="section-head center">
+  <div class="wrap split">
+    <div>
       <h2>Understand the economic news in three steps</h2>
-      <p>Start with one page on the four reports that move the economy.</p>
+      <ol class="steps-list">
+        <li><div><h3>Download the free report guide</h3><p>One page on the four reports that move the economy: what each one measures, who publishes it and when it comes out.</p></div></li>
+        <li><div><h3>Check the AI's read when a report comes out</h3><p>Each week I post what the AI read in the newest reports, what it traded on a paper account with no real money, and why. Paper results are hypothetical and can't predict future returns.</p></div></li>
+        <li><div><h3>Know what the news means for your money</h3><p>Spend a few minutes with each report, then decide what it means for your own investments.</p></div></li>
+      </ol>
+      <div class="btn-row start"><a href="guide.html" class="btn">Download the Free Report Guide</a></div>
     </div>
-    <ol class="timeline">
-      <li>
-        <h3>Download the free report guide</h3>
-        <p>One page on the four reports: what each one measures, who publishes it and when it comes out.</p>
-      </li>
-      <li>
-        <h3>Check the AI's read when a report comes out</h3>
-        <p>Each week I post what the AI read in the newest reports, what it traded on a paper account with no real money, and why. Paper results are hypothetical and can't predict future returns.</p>
-      </li>
-      <li>
-        <h3>Know what the news means for your money</h3>
-        <p>Spend a few minutes with each report, then decide what it means for your own investments.</p>
-      </li>
-    </ol>
-    <p class="punch">I'll show the reasoning behind every trade the AI makes, so you can judge each one.</p>
-    <div class="btn-row">
-      <a href="guide.html" class="btn">Download the Free Report Guide</a>
-    </div>
+    {photo("letter", "A smiling couple reading a page together at their kitchen table over breakfast")}
   </div>
 </section>
 
-<section id="data">
+<section id="reports">
   <div class="wrap">
     <div class="section-head center">
       <h2>Four reports the AI reads first</h2>
       <p>Each one comes straight from the agency that publishes it, by its series ID.</p>
     </div>
-    <div class="terminal">
-      <p class="terminal-bar" aria-hidden="true"><span></span><span></span><span></span>api.bls.gov &middot; federalreserve.gov</p>
-      <ul class="series">
-{series}
-      </ul>
+    <div class="pcards four">
+{report_cards()}
     </div>
-    <div class="btn-row">
-      <a href="guide.html" class="btn">See All Four in the Free Guide</a>
-    </div>
-  </div>
-</section>
-
-<section id="success" class="band">
-  <div class="wrap split">
-    <div>
-      <h2>Know what the news means for your money</h2>
-      <p>You'll see how an AI reads each report and why it trades, so you can decide what the news means for your own money. And you'll spend less time reading financial news.</p>
-    </div>
-    {photo("phone", "A woman reading her phone at a cafe table beside a coffee cup and a leather notebook")}
   </div>
 </section>
 
 <section id="stakes" class="after">
   <div class="wrap">
     <div class="section-head center">
-      <h2>Trading on headlines costs money</h2>
-      <p>Investors who react to whatever grabs their attention tend to trail the market.</p>
+      <h2>What changes when you understand the reports</h2>
     </div>
-    <div class="facts">
-      <div class="fact">
-        <div class="icon">{ICONS['drop']}</div>
-        <h3>The busiest traders earned less</h3>
-        <div class="bars" role="img" aria-label="Average yearly return, 1991 to 1996: the market 17.9%, the households with the heaviest trading 11.4%">
-          <div class="bar"><span class="label">The market</span><span class="fill" style="width:100%"></span><span class="val">17.9%</span></div>
-          <div class="bar busy"><span class="label">Busiest traders</span><span class="fill" style="width:63.7%"></span><span class="val">11.4%</span></div>
+    <div class="stakes-split">
+      {photo("phone", "A woman reading her phone at a cafe table beside a coffee cup and a leather notebook")}
+      <div class="stakes">
+        <div class="stake">
+          <h3>When you trade on headlines</h3>
+          <ul class="outcomes">
+{outcomes(["Big reports come out at 8:30 in the morning, during school and work, and prices move before most people can read them.",
+           "The households that traded the most earned 11.4% a year while the market returned 17.9%.",
+           "The stocks Robinhood users bought most each day trailed the market by 4.7% over the next 20 trading days."], "x")}
+          </ul>
         </div>
-        <p>Among 66,465 households at a discount broker from 1991 to 1996, the households with the heaviest trading earned 11.4% a year. The market returned 17.9%.</p>
-      </div>
-      <div class="fact">
-        <div class="icon">{ICONS['headline']}</div>
-        <p class="stat">&minus;4.7%</p>
-        <h3>The crowd's favorite stocks fell behind</h3>
-        <p>The stocks Robinhood users bought in the biggest numbers each day trailed the market by an average of 4.7% over the next 20 trading days.</p>
+        <div class="stake good">
+          <h3>When you know what the reports say</h3>
+          <ul class="outcomes">
+{outcomes(["You know which four reports matter and when each one comes out.",
+           "You can see how an AI reads each report and why it makes each paper trade.",
+           "You decide what the news means for your own money in a few minutes."], "check")}
+          </ul>
+        </div>
       </div>
     </div>
     <p class="punch test">I'm testing whether an AI that reads economic data can avoid these mistakes. The paper-trading results will show whether it does.</p>
     <p class="cite-line">Sources: Barber and Odean, Journal of Finance, 2000; Barber, Huang, Odean and Schwarz, Journal of Finance, 2022.</p>
   </div>
 </section>
-""" + cta("Four economic reports on one page", "What each one measures, who publishes it and when it comes out. Free to download.",
-          "guide.html", "Download the Free Report Guide") + sources(["choice", "literacy", "overload", "taiwan", "hazardous", "robinhood"]) + "\n</main>\n" + foot()
+""" + closing_banner("Four economic reports on one page", "What each one measures, who publishes it and when it comes out. Free to download.",
+                     "guide.html", "Download the Free Report Guide", ("research.html", "Read the research")) + sources(
+        ["choice", "literacy", "taiwan", "hazardous", "robinhood"]) + credits() + "\n</main>\n" + foot()
+
+
+def credits():
+    return """
+<section class="refs credits">
+  <div class="wrap">
+    <p class="cite-line">Photos: Unsplash.</p>
+  </div>
+</section>
+"""
+
+
+# ---------------------------------------------------------------- report guide
+def guide():
+    t = f"The Free Economic Report Guide: CPI, Jobs, Unemployment and Interest Rates | {SITE_NAME}"
+    d = ("A free one-page guide to the four economic reports investors watch: what each one measures, "
+         "who publishes it and when it comes out.")
+    schema = [page_schema("WebPage", "guide.html", t, d, {"about": "U.S. economic data releases"}), crumbs("Report Guide", "guide.html")]
+    cards = "\n".join(f"""      <article class="report" id="{r['id']}">
+        <figure class="card-photo">{card_img(r['photo'], r['alt'])}</figure>
+        <div class="report-body">
+          <div class="icon">{ICONS[r['icon']]}</div>
+          <h3>{r['name']}</h3>
+          <p class="series-id"><code>{r['series']}</code></p>
+          <p>{r['measures']}</p>
+          <dl>
+            <dt>Published by</dt><dd>{r['who']}</dd>
+            <dt>Comes out</dt><dd>{r['when']}</dd>
+            <dt>Why investors watch it</dt><dd>{r['why']}</dd>
+          </dl>
+        </div>
+      </article>""" for r in REPORTS)
+    return head(t, d, "guide.html", schema) + nav("guide.html") + f"""
+<main id="main">
+
+<header class="page-hero">
+  <div class="wrap split">
+    <div>
+      <h1>The free economic report guide</h1>
+      <p class="lede">The four reports my AI reads first, on one page: what each one measures, who publishes it and when it comes out.</p>
+      <div class="btn-row start">
+        <a href="economic-report-guide.pdf" class="btn" download>Download the PDF</a>
+      </div>
+    </div>
+    {photo("couple", "A man and a woman at a kitchen table looking at a laptop together", eager=True)}
+  </div>
+</header>
+
+<section class="band" id="guide">
+  <div class="wrap">
+    <div class="reports">
+{cards}
+    </div>
+    <p class="print-note">Educational only. Nothing here is investment advice or a recommendation to buy or sell any security. Data from the U.S. Bureau of Labor Statistics and the Federal Reserve. {SITE_NAME}, by {AUTHOR}.</p>
+  </div>
+</section>
+""" + closing_banner("Then see what the AI made of them", "Each week I post what the AI read in the newest reports and what it traded on paper.",
+                     "updates.html", "Follow the Build Updates") + credits() + "\n</main>\n" + foot()
+
+
+# ---------------------------------------------------------------- research
+def research():
+    t = f"How Everyday Investors Handle Financial News: The Research | {SITE_NAME}"
+    d = ("What economists have found about investors and information: too many choices, the cost of frequent trading, "
+         "and buying whatever grabs attention.")
+    schema = [page_schema("Article", "research.html", t, d, {"about": "Individual investors and financial information"}), crumbs("Research", "research.html")]
+    return head(t, d, "research.html", schema) + nav("research.html") + f"""
+<main id="main">
+
+<header class="page-hero">
+  <div class="wrap split">
+    <div>
+      <h1>What the research says about investors and the news</h1>
+      <p class="lede">Before I built anything, I read what economists have found about how everyday investors handle financial information. Here is what the studies show.</p>
+    </div>
+    {photo("library", "A student studying at a long wooden desk in a library reading room lined with books", eager=True)}
+  </div>
+</header>
+
+<section id="choice" class="band">
+  <div class="wrap split flip">
+    {photo("paperwork", "A couple going over papers together at their kitchen table", tall=True)}
+    <div>
+      <h2>More information, harder decisions</h2>
+      <p class="lead">When an investing decision gets more complicated, people tend to put it off or take whatever is picked for them.</p>
+      <ul class="statlist">
+{statlist([("75% &rarr; 60%", "More funds, fewer savers", "Across 647 retirement plans and almost 800,000 employees, 75% signed up when their plan offered two funds. When it offered 59, about 60% did."),
+           ("1.5&ndash;2%", "Every 10 funds", "Each 10 funds a plan added went with a 1.5 to 2 percent drop in sign-ups."),
+           ("34%", "&ldquo;Do not know&rdquo;", "Asked a basic question about spreading out investment risk, 34% of Americans answered &ldquo;do not know.&rdquo;"),
+           ("20% vs 2%", "Overwhelmed people take the default", "In an experiment, people who knew less about investing took the default choice 20% of the time. People who knew more took it 2% of the time. The authors wrote that people with below-average knowledge &ldquo;are simply overwhelmed by the investment decision.&rdquo;")])}
+      </ul>
+      <p class="cite-line">Sources: Sethi-Iyengar, Huberman and Jiang, 2004; Lusardi and Mitchell, 2014; Agnew and Szykman, 2005.</p>
+    </div>
+  </div>
+</section>
+
+<section id="trading">
+  <div class="wrap split">
+    <div>
+      <h2>Trading more, earning less</h2>
+      <p>Economists followed 66,465 households at a large discount broker from 1991 to 1996. The households that traded the most earned 11.4% a year. The market as a whole returned 17.9%.</p>
+      <figure class="chart">
+        <h3>Average yearly return, 1991 to 1996</h3>
+        <div class="bars">
+{bars([("The market", 17.9, "lo"), ("Busiest traders", 11.4, "hi")], 20)}
+        </div>
+        <p class="cite-line">Source: Barber and Odean, Journal of Finance, 2000.</p>
+      </figure>
+      <p class="after-chart">A later study used every trade in Taiwan from 1995 to 1999. Individual investors lost 3.8 percentage points a year to trading, while institutions, with their analysts and software, gained 1.5.</p>
+      <p class="cite-line">Source: Barber, Lee, Liu and Odean, Review of Financial Studies, 2009.</p>
+    </div>
+    {photo("chart-phone", "A hand holding up a phone showing a stock chart in front of a large screen of price charts", tall=True)}
+  </div>
+</section>
+
+<section id="attention" class="band">
+  <div class="wrap split flip">
+    {photo("students-phones", "Two students smiling at a phone together at a desk in a lecture hall")}
+    <div>
+      <h2>Buying whatever grabs attention</h2>
+      <p class="lead">Individual investors tend to buy the stocks in the news, and those stocks often do worse afterward.</p>
+      <ul class="statlist">
+{statlist([("2 to 1", "Buying the buzz", "On days when a stock traded in unusually high volume, individual investors made nearly twice as many purchases of it as sales."),
+           ("&minus;4.7%", "The crowd's favorites", "The stocks Robinhood users bought in the biggest numbers each day trailed the market by an average of 4.7% over the next 20 trading days.")])}
+      </ul>
+      <p class="cite-line">Sources: Barber and Odean, Review of Financial Studies, 2008; Barber, Huang, Odean and Schwarz, Journal of Finance, 2022.</p>
+    </div>
+  </div>
+</section>
+
+<section id="limits">
+  <div class="wrap split">
+    <div>
+      <h2>What these studies can't tell us</h2>
+      <p>These studies describe how real investors did, on average, in the past. They don't show that an AI can do better, and they don't say anything about any one investor.</p>
+      <p>That's the question my project is testing. Every trade the AI makes happens on a paper account with no real money, and I'll post the results each week, including the weeks it gets wrong. Paper results are hypothetical and can't predict future returns.</p>
+      <div class="btn-row start"><a href="updates.html" class="btn ghost">Follow the build updates</a></div>
+    </div>
+    {photo("friends-phone", "A man and a woman laughing together as they look at a phone")}
+  </div>
+</section>
+""" + closing_banner("Start with the four reports the AI reads", "One free page on what each report measures and when it comes out.",
+                     "guide.html", "Download the Free Report Guide") + sources(
+        ["choice", "literacy", "overload", "hazardous", "taiwan", "glitters", "robinhood"]) + credits() + "\n</main>\n" + foot()
 
 
 # ---------------------------------------------------------------- updates
@@ -418,14 +562,8 @@ def updates():
     t = f"Build Updates: An AI Agent That Trades on Economic Data | {SITE_NAME}"
     d = ("Weekly updates on the AI agent I'm building: what it read in each report, "
          "what it traded on paper, and what I changed.")
-    schema = [page_schema("WebPage", "updates.html", t, d, {"about": "Building an AI trading agent"}),
-              {"@type": "BreadcrumbList", "itemListElement": [
-                  {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE},
-                  {"@type": "ListItem", "position": 2, "name": "Build Updates", "item": SITE + "updates.html"}]}]
-    steps = "\n".join(f"""      <li>
-        <h3>{h}</h3>
-        <p>{p}</p>
-      </li>""" for h, p in BUILD)
+    schema = [page_schema("WebPage", "updates.html", t, d, {"about": "Building an AI trading agent"}), crumbs("Build Updates", "updates.html")]
+    steps = "\n".join(f"""        <li><div><h3>{h}</h3><p>{p}</p></div></li>""" for h, p in BUILD)
     return head(t, d, "updates.html", schema) + nav("updates.html") + f"""
 <main id="main">
 
@@ -440,14 +578,15 @@ def updates():
 </header>
 
 <section class="band">
-  <div class="wrap">
-    <div class="section-head center">
+  <div class="wrap split flip">
+    {photo("screens", "A tablet showing a candlestick price chart in front of monitors full of market charts")}
+    <div>
       <h2>Version one in four parts</h2>
-      <p>The first version is simple on purpose. Each part will have its own update.</p>
-    </div>
-    <ol class="build">
+      <p class="lead">The first version is simple on purpose. Each part will have its own update.</p>
+      <ol class="steps-list">
 {steps}
-    </ol>
+      </ol>
+    </div>
   </div>
 </section>
 
@@ -462,55 +601,8 @@ def updates():
     </div>
   </div>
 </section>
-""" + cta("Start with the four reports the AI reads", "One free page on what each report measures and when it comes out.",
-          "guide.html", "Download the Free Report Guide") + "\n</main>\n" + foot()
-
-
-def guide():
-    t = f"The Free Economic Report Guide: CPI, Jobs, Unemployment and Interest Rates | {SITE_NAME}"
-    d = ("A free one-page guide to the four economic reports investors watch: what each one measures, "
-         "who publishes it and when it comes out.")
-    schema = [page_schema("WebPage", "guide.html", t, d, {"about": "U.S. economic data releases"}),
-              {"@type": "BreadcrumbList", "itemListElement": [
-                  {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE},
-                  {"@type": "ListItem", "position": 2, "name": "Report Guide", "item": SITE + "guide.html"}]}]
-    cards = "\n".join(f"""      <article class="report" id="{r['id']}">
-        <div class="icon">{ICONS[r['icon']]}</div>
-        <h3>{r['name']}</h3>
-        <p class="series-id"><code>{r['series']}</code></p>
-        <p>{r['measures']}</p>
-        <dl>
-          <dt>Published by</dt><dd>{r['who']}</dd>
-          <dt>Comes out</dt><dd>{r['when']}</dd>
-          <dt>Why investors watch it</dt><dd>{r['why']}</dd>
-        </dl>
-      </article>""" for r in REPORTS)
-    return head(t, d, "guide.html", schema) + nav("guide.html") + f"""
-<main id="main">
-
-<header class="page-hero">
-  <div class="wrap split">
-    <div>
-      <h1>The free economic report guide</h1>
-      <p class="lede">The four reports my AI reads first, on one page: what each one measures, who publishes it and when it comes out.</p>
-      <div class="btn-row">
-        <a href="economic-report-guide.pdf" class="btn" download>Download the PDF</a>
-      </div>
-    </div>
-    {photo("couple", "A man and a woman at a kitchen table looking at a laptop together", eager=True)}
-  </div>
-</header>
-
-<section class="band" id="reports">
-  <div class="wrap">
-    <div class="reports">
-{cards}
-    </div>
-    <p class="print-note">Educational only. Nothing here is investment advice or a recommendation to buy or sell any security. Data from the U.S. Bureau of Labor Statistics and the Federal Reserve. {SITE_NAME}, by {AUTHOR}.</p>
-  </div>
-</section>
-""" + cta("Then see what the AI made of them", "Each week I post what the AI read in the newest reports and what it traded on paper.",
-          "updates.html", "Follow the Build Updates") + "\n</main>\n" + foot()
+""" + closing_banner("Start with the four reports the AI reads", "One free page on what each report measures and when it comes out.",
+                     "guide.html", "Download the Free Report Guide") + credits() + "\n</main>\n" + foot()
 
 
 def sitemap():
@@ -519,7 +611,7 @@ def sitemap():
 
 
 if __name__ == "__main__":
-    for name, fn in {"index.html": index, "guide.html": guide, "updates.html": updates}.items():
+    for name, fn in {"index.html": index, "guide.html": guide, "research.html": research, "updates.html": updates}.items():
         with open(name, "w") as f:
             f.write(fn())
         print("wrote", name)
