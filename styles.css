@@ -317,3 +317,28 @@ footer .disclaimer{ flex-basis: 100%; font-size: 0.88rem; color: var(--on-dark-s
   .bar{ grid-template-columns: 1fr 56px; }
   .bar .label{ grid-column: 1 / -1; }
 }
+
+/* ---------------- home hero banner ----------------
+   A full-width photo of a busy person checking the news over coffee. On
+   laptops the headline sits on a navy scrim over the left side; on
+   phones the photo stacks above a solid navy block, so no text sits on
+   the photo. */
+.banner{ position: relative; background: var(--primary-dk); color: var(--on-dark); overflow: hidden; min-height: min(640px, 76vh); display: flex; align-items: center; }
+.banner picture, .banner img{ position: absolute; inset: 0; width: 100%; height: 100%; }
+.banner img{ object-fit: cover; object-position: 62% 35%; }
+.banner::before{ content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(90deg, rgba(13,27,46,0.95) 0%, rgba(13,27,46,0.88) 30%, rgba(13,27,46,0.4) 48%, rgba(13,27,46,0) 60%); }
+.banner .wrap{ position: relative; z-index: 2; width: 100%; padding-top: 56px; padding-bottom: 56px; }
+.banner-text{ max-width: 520px; text-align: center; }
+.banner h1{ color: #FFFFFF; font-size: clamp(2.6rem, 5vw, 4.2rem); }
+.banner h1 span{ display: block; color: var(--mint); }
+@media (prefers-reduced-motion: no-preference){
+  .banner-text{ animation: rise 0.7s cubic-bezier(.2,.7,.2,1) 0.1s both; }
+}
+@media (max-width: 860px){
+  .banner{ display: block; min-height: 0; }
+  .banner picture, .banner img{ position: static; display: block; height: auto; aspect-ratio: 4/3; }
+  .banner::before{ display: none; }
+  .banner .wrap{ padding-top: 30px; padding-bottom: 44px; }
+  .banner-text{ max-width: none; }
+}

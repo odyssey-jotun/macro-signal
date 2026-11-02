@@ -73,6 +73,12 @@ def preload(name):
             f'imagesizes="{PORTRAIT_SIZES}" fetchpriority="high">\n')
 
 
+BANNER_PRELOAD = ('<link rel="preload" as="image" type="image/webp" media="(min-width: 861px)" href="images/banner-1600.webp" '
+                  'imagesrcset="images/banner-1000.webp 1000w, images/banner-1600.webp 1600w, images/banner-2400.webp 2400w" imagesizes="100vw" fetchpriority="high">\n'
+                  '<link rel="preload" as="image" type="image/webp" media="(max-width: 860px)" href="images/banner-m-900.webp" '
+                  'imagesrcset="images/banner-m-600.webp 600w, images/banner-m-900.webp 900w" imagesizes="100vw" fetchpriority="high">\n')
+
+
 PERSON = {
     "@type": "Person", "@id": SITE + "#julian", "name": AUTHOR,
     "description": f"High school junior in Georgia building {SITE_NAME}, an AI agent that reads U.S. economic data and paper trades on it.",
@@ -230,13 +236,16 @@ def index():
         <h3>{s['name']}</h3>
         <p>{s['text']}</p>
       </li>""" for s in SERIES)
-    return head(t, d, "", schema, preload("julian")) + nav("index.html") + f"""
+    return head(t, d, "", schema, BANNER_PRELOAD) + nav("index.html") + f"""
 <main id="main">
 
-<header class="hero">
-  <div class="wrap hero2">
-    {portrait("julian", "Julian Sassoon in a blue and green checked shirt, smiling against a white wall", eager=True)}
-    <div class="hero2-text">
+<header class="banner">
+  <picture>
+    <source media="(max-width: 860px)" srcset="images/banner-m-600.webp 600w, images/banner-m-900.webp 900w" sizes="100vw">
+    <img src="images/banner-1600.webp" srcset="images/banner-1000.webp 1000w, images/banner-1600.webp 1600w, images/banner-2400.webp 2400w" sizes="100vw" width="1600" height="800" alt="A smiling man in his kitchen holding a coffee mug and reading his phone" fetchpriority="high" decoding="async">
+  </picture>
+  <div class="wrap">
+    <div class="banner-text">
       <h1>Invest without <span>the homework.</span></h1>
       <div class="btn-row">
         <a href="updates.html" class="btn light">Follow the Build</a>
@@ -277,7 +286,7 @@ def index():
 
 <section id="about">
   <div class="wrap split flip">
-    {photo("laptop", "A laptop on a wooden desk showing a stock chart with a green price line")}
+    {portrait("julian", "Julian Sassoon in a blue and green checked shirt, smiling against a white wall")}
     <div>
       <h2>I kept missing the news during class</h2>
       <p>I'm Julian Sassoon, a junior in Georgia. I've spent six years learning how markets work and testing trading strategies. My problem was always time. Big economic reports come out during the school day, and by the time I could look, the market had already moved.</p>

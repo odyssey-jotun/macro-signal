@@ -16,6 +16,20 @@ for w in (480, 680, 800):
     im.resize((w, round(w * 5 / 4)), Image.LANCZOS).save(f"images/julian-{w}.webp", quality=72, method=6)
 print("wrote julian")
 
+# Home banner: a smiling man reading his phone over coffee in his kitchen
+# (Unsplash w6CqGUuD_q8). 2:1 for laptops, 4:3 for phones.
+im = grade(Image.open("images/originals/w6CqGUuD_q8.jpg"))
+w, h = im.size
+wide = im.crop((0, round((h - w / 2) * 0.3), w, round((h - w / 2) * 0.3 + w / 2)))
+for tw in (1000, 1600, 2400):
+    wide.resize((tw, tw // 2), Image.LANCZOS).save(f"images/banner-{tw}.webp", quality=72, method=6)
+cw = round(h * 4 / 3)
+cx = round(w * 0.58 - cw / 2)
+tall = im.crop((cx, 0, cx + cw, h))
+for tw in (600, 900):
+    tall.resize((tw, round(tw * 3 / 4)), Image.LANCZOS).save(f"images/banner-m-{tw}.webp", quality=72, method=6)
+print("wrote banner")
+
 # Stock, 4:3: laptop with a stock chart (Unsplash ztYmIQecyH4) and a woman
 # reading her phone at a cafe (Unsplash z6w4T4tAOxI).
 for name, src, x in (("laptop", "ztYmIQecyH4", 177), ("phone", "z6w4T4tAOxI", 120)):
