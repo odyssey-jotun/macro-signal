@@ -363,17 +363,18 @@ a.pcard:hover h3{ color: var(--blue); }
   .btn-row.start{ justify-content: center; }
 }
 
-/* ---------------- home: split hero, number strip, data cards, sample read ---------------- */
-.hero{ padding: 64px 0 60px; }
-.hero .split{ grid-template-columns: 1.1fr 0.9fr; }
-.hero h1{ font-size: clamp(3rem, 6.6vw, 5.4rem); line-height: 0.98; letter-spacing: -0.045em; }
-.hero h1 span{ display: block; color: var(--mint); }
-.hero .btn-row{ margin-top: 36px; }
-.hero-photo{ margin: 0; aspect-ratio: 4/5; width: 100%; max-width: 460px; justify-self: end; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--line); }
-.hero-photo img{ display: block; width: 100%; height: 100%; object-fit: cover; }
-@media (prefers-reduced-motion: no-preference){
-  .hero-copy{ animation: rise 0.7s cubic-bezier(.2,.7,.2,1) 0.1s both; }
-}
+/* ---------------- home: hero banner, number strip, data cards, sample read ----------------
+   The photo fills the left 70% of the banner and fades into the page, so the
+   headline sits on solid dark on the right. Phones stack the photo above. */
+.hero-banner{ background: var(--bg); min-height: min(660px, 80vh); }
+.hero-banner::before{ display: none; }
+.hero-banner picture{ right: auto; width: 70%; }
+.hero-banner img{ object-position: 30% 50%; -webkit-mask-image: linear-gradient(90deg, #000 50%, transparent 98%); mask-image: linear-gradient(90deg, #000 50%, transparent 98%); }
+.hero-banner .wrap{ display: flex; justify-content: flex-end; }
+.hero-banner .banner-text{ max-width: 500px; text-align: left; }
+.hero-banner h1{ font-size: clamp(3rem, 5.6vw, 4.8rem); line-height: 0.98; letter-spacing: -0.045em; }
+.hero-banner p{ color: var(--ink-soft); font-size: 1.14rem; margin-top: 18px; }
+.hero-banner .btn-row{ margin-top: 30px; }
 
 .tape{ padding: 0; background: var(--bg-alt); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .tape ul{ list-style: none; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); }
@@ -412,11 +413,11 @@ a.dcard:hover{ border-color: var(--primary); transform: translateY(-3px); }
 
 @media (max-width: 1000px){ .dcards{ grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 860px){
-  .hero{ padding: 20px 0 40px; }
-  .hero .split{ grid-template-columns: 1fr; gap: 26px; }
-  .hero-photo{ order: -1; aspect-ratio: 4/3; max-width: none; justify-self: stretch; }
-  .hero-copy{ text-align: center; }
-  .hero .btn-row{ justify-content: center; margin-top: 26px; }
+  .hero-banner picture{ width: 100%; }
+  .hero-banner img{ -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent); mask-image: linear-gradient(180deg, #000 70%, transparent); }
+  .hero-banner .wrap{ display: block; padding-top: 6px; }
+  .hero-banner .banner-text{ text-align: center; }
+  .hero-banner .btn-row{ justify-content: center; }
   .tape ul{ grid-template-columns: 1fr 1fr; }
   .tape li{ padding: 16px 0 16px 16px; }
   .tape li:nth-child(odd){ border-left: 0; padding-left: 0; }

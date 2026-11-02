@@ -16,15 +16,15 @@ for w in (480, 680, 800):
     im.resize((w, round(w * 5 / 4)), Image.LANCZOS).save(f"images/julian-{w}.webp", quality=72, method=6)
 print("wrote julian")
 
-# Home hero: a man reading his phone by the river at night (Unsplash
-# uYJrNrcLcFE, Daniel Bertrams). 4:5 beside the headline on laptops, 4:3 on
-# phones. Graded neutral: the night blues stay blue.
-im = Image.open("images/originals/night-phone.jpg").convert("RGB")
-im = ImageEnhance.Contrast(im).enhance(1.06)
-tall = im.crop((360, 640, 3200, 4190))
-for tw in (600, 900, 1200):
-    tall.resize((tw, round(tw * 5 / 4)), Image.LANCZOS).save(f"images/hero-{tw}.webp", quality=74, method=6)
-m = im.crop((0, 1150, 3200, 3550))
+# Home hero banner: a man and a woman checking their phones on a city street
+# at night (Unsplash photo-1666380601180-8fc217036906). The full 3:2 frame
+# fills the left of the banner on laptops and fades into the page; 4:3 on
+# phones. Graded neutral: the night colors stay as shot.
+im = Image.open("images/originals/night-pair.jpg").convert("RGB")
+im = ImageEnhance.Contrast(im).enhance(1.04)
+for tw in (1000, 1500, 2000):
+    im.resize((tw, round(tw * 2 / 3)), Image.LANCZOS).save(f"images/hero-{tw}.webp", quality=74, method=6)
+m = im.crop((0, 0, 2133, 1600))
 for tw in (600, 900):
     m.resize((tw, round(tw * 3 / 4)), Image.LANCZOS).save(f"images/hero-m-{tw}.webp", quality=74, method=6)
 print("wrote hero")

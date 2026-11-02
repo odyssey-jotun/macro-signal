@@ -93,8 +93,8 @@ def preload(name):
             f'imagesizes="{PORTRAIT_SIZES}" fetchpriority="high">\n')
 
 
-BANNER_PRELOAD = ('<link rel="preload" as="image" type="image/webp" media="(min-width: 861px)" href="images/hero-900.webp" '
-                  'imagesrcset="images/hero-600.webp 600w, images/hero-900.webp 900w, images/hero-1200.webp 1200w" imagesizes="460px" fetchpriority="high">\n'
+BANNER_PRELOAD = ('<link rel="preload" as="image" type="image/webp" media="(min-width: 861px)" href="images/hero-1500.webp" '
+                  'imagesrcset="images/hero-1000.webp 1000w, images/hero-1500.webp 1500w, images/hero-2000.webp 2000w" imagesizes="70vw" fetchpriority="high">\n'
                   '<link rel="preload" as="image" type="image/webp" media="(max-width: 860px)" href="images/hero-m-900.webp" '
                   'imagesrcset="images/hero-m-600.webp 600w, images/hero-m-900.webp 900w" imagesizes="100vw" fetchpriority="high">\n')
 
@@ -457,18 +457,17 @@ def index():
     return head(t, d, "", schema, BANNER_PRELOAD) + nav("index.html") + f"""
 <main id="main">
 
-<header class="hero">
-  <div class="wrap split">
-    <div class="hero-copy">
+<header class="banner hero-banner">
+  <picture>
+    <source media="(max-width: 860px)" srcset="images/hero-m-600.webp 600w, images/hero-m-900.webp 900w" sizes="100vw">
+    <img src="images/hero-1500.webp" srcset="images/hero-1000.webp 1000w, images/hero-1500.webp 1500w, images/hero-2000.webp 2000w" sizes="70vw" width="1500" height="1000" alt="A man and a woman checking their phones on a city street at night" fetchpriority="high" decoding="async">
+  </picture>
+  <div class="wrap">
+    <div class="banner-text">
       <h1>Deep economics <span>made instant.</span></h1>
+      <p>An AI reads the four reports that move the market and explains each one in plain English.</p>
       <div class="btn-row start"><a href="guide.html" class="btn">Download the Free Report Guide</a></div>
     </div>
-    <figure class="hero-photo">
-      <picture>
-        <source media="(max-width: 860px)" srcset="images/hero-m-600.webp 600w, images/hero-m-900.webp 900w" sizes="100vw">
-        <img src="images/hero-900.webp" srcset="images/hero-600.webp 600w, images/hero-900.webp 900w, images/hero-1200.webp 1200w" sizes="(max-width: 860px) 100vw, 460px" width="900" height="1125" alt="A man in glasses reading the news on his phone by a river at night" fetchpriority="high" decoding="async">
-      </picture>
-    </figure>
   </div>
 </header>
 {tape()}
@@ -731,6 +730,7 @@ def updates():
     <div>
       <h1>Build updates</h1>
       <p class="lede">Every week I post what I built, what the AI read, what it traded on paper and what I changed.</p>
+      <div class="btn-row start"><a href="guide.html" class="btn">Download the Free Report Guide</a></div>
     </div>
     {photo("laptop", "A laptop on a wooden desk showing a stock chart with a green price line", eager=True)}
   </div>
