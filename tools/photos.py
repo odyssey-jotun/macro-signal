@@ -32,7 +32,8 @@ print("wrote banner")
 
 # Stock, 4:3: laptop with a stock chart (Unsplash ztYmIQecyH4) and a woman
 # reading her phone at a cafe (Unsplash z6w4T4tAOxI).
-for name, src, x in (("laptop", "ztYmIQecyH4", 177), ("phone", "z6w4T4tAOxI", 120)):
+# The guide page uses a couple at a laptop (Unsplash bEQgcVTb1hQ).
+for name, src, x in (("laptop", "ztYmIQecyH4", 177), ("phone", "z6w4T4tAOxI", 120), ("couple", "bEQgcVTb1hQ", 560)):
     im = Image.open(f"images/originals/{src}.jpg")
     w, h = im.size
     im = grade(im.crop((x, 0, x + round(h * 4 / 3), h)))

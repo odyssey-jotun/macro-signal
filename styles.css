@@ -345,3 +345,47 @@ footer .disclaimer{ flex-basis: 100%; font-size: 0.88rem; color: var(--on-dark-s
 .punch.test{ color: var(--mint); max-width: 640px; margin-top: 34px; }
 .note .small{ font-size: 0.9rem; margin-top: 12px; }
 footer .disclaimer + .disclaimer{ margin-top: -4px; }
+
+/* ---------------- report guide ---------------- */
+.reports{ display:grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.report{ background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 30px 28px 26px; scroll-margin-top: 90px; }
+.report .icon{ width: 56px; height: 56px; border-radius: 16px; margin-bottom: 14px; }
+.report .icon svg{ width: 30px; height: 30px; }
+.report h3{ font-size: 1.3rem; text-align: center; }
+.report .series-id{ text-align:center; margin: 4px 0 14px; }
+.report .series-id code{ font-family: 'IBM Plex Mono', ui-monospace, monospace; font-weight:500; font-size: 0.9rem; color: var(--primary); background: var(--bg-alt); border-radius: 6px; padding: 3px 9px; }
+.report > p{ color: var(--ink-soft); font-size: 1rem; }
+.report dl{ margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--line); display:grid; grid-template-columns: auto 1fr; gap: 8px 14px; font-size: 0.96rem; }
+.report dt{ font-weight: 700; color: var(--ink); }
+.report dd{ margin: 0; color: var(--ink-soft); }
+.print-note{ text-align:center; font-size: 0.9rem; color: var(--ink-soft); font-style: italic; margin: 26px auto 0; max-width: 760px; }
+@media (max-width: 620px){
+  .reports{ grid-template-columns: 1fr; }
+  .report dl{ grid-template-columns: 1fr; gap: 2px; }
+  .report dd{ margin-bottom: 8px; }
+}
+
+/* ---------------- print: the downloadable guide, one page ---------------- */
+@media print{
+  @page{ size: letter; margin: 0.45in 0.55in; }
+  body{ font-size: 10.5pt; }
+  nav.site, footer, .skip, .page-hero .photo, .btn-row, .closing{ display: none !important; }
+  .page-hero{ padding: 0 0 18pt; }
+  .page-hero .wrap, .page-hero .split{ display: block; padding: 0; }
+  .page-hero h1{ font-size: 23pt; }
+  .page-hero .lede{ font-size: 11pt; margin: 4pt 0 0; max-width: none; }
+  section{ padding: 0; }
+  .band{ background: none; }
+  .wrap{ padding: 0; max-width: none; }
+  .reports{ gap: 16pt; }
+  .report{ padding: 15pt 15pt; break-inside: avoid; border-color: #BFCBD9; border-radius: 12px; }
+  .report .icon{ width: 32px; height: 32px; border-radius: 9px; margin-bottom: 5pt; }
+  .report .icon svg{ width: 17px; height: 17px; }
+  .report h3{ font-size: 13.5pt; }
+  .report .series-id{ margin: 2pt 0 7pt; }
+  .report .series-id code{ font-size: 8.5pt; }
+  .report > p{ font-size: 10.4pt; line-height: 1.45; }
+  .report dl{ font-size: 9.4pt; line-height: 1.4; margin-top: 8pt; padding-top: 8pt; gap: 4pt 10pt; }
+  .report dl{ grid-template-columns: 74pt 1fr; }
+  .print-note{ font-size: 9pt; margin-top: 18pt; }
+}

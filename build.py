@@ -39,6 +39,26 @@ SERIES = [
     {"id": "LNS14000000", "icon": "chart", "name": "Unemployment", "text": "The share of workers looking for a job."},
 ]
 
+# The free guide: one card per report. Facts from the publishing agencies.
+REPORTS = [
+    {"id": "cpi", "icon": "cart", "name": "Consumer Price Index", "series": "CUSR0000SA0",
+     "measures": "How much the prices people pay for everyday goods and services changed, from groceries and gas to rent.",
+     "who": "U.S. Bureau of Labor Statistics", "when": "Monthly, around the middle of the month, at 8:30 a.m. Eastern",
+     "why": "It is the best-known measure of inflation. When prices rise quickly, the Federal Reserve can keep interest rates higher for longer."},
+    {"id": "jobs", "icon": "people", "name": "Payroll jobs", "series": "CES0000000001",
+     "measures": "How many jobs employers added or cut last month, outside of farm work.",
+     "who": "U.S. Bureau of Labor Statistics, in the monthly jobs report", "when": "Usually the first Friday of the month, at 8:30 a.m. Eastern",
+     "why": "It is one of the clearest signs of whether the economy is growing or slowing, and it often moves markets the morning it comes out."},
+    {"id": "unemployment", "icon": "chart", "name": "Unemployment rate", "series": "LNS14000000",
+     "measures": "The share of people who want a job, are looking for one and don't have one.",
+     "who": "U.S. Bureau of Labor Statistics, in the same jobs report", "when": "Usually the first Friday of the month, at 8:30 a.m. Eastern",
+     "why": "The Federal Reserve's job is to keep prices stable and employment high, so it watches this number closely."},
+    {"id": "rates", "icon": "bank", "name": "Federal funds rate", "series": "RIFSPFF_N.M",
+     "measures": "The interest rate banks charge each other to borrow overnight. The Federal Reserve sets a target range for it.",
+     "who": "Federal Reserve", "when": "Decided at eight scheduled meetings a year, announced at 2:00 p.m. Eastern",
+     "why": "It ripples out to the rates on mortgages, car loans, credit cards and savings accounts."},
+]
+
 # ---------------------------------------------------------------- helpers
 CSS = None
 
@@ -135,7 +155,7 @@ def page_schema(kind, path, title, desc, extra=None):
     return d
 
 
-PAGES = [("index.html", "Home"), ("updates.html", "Build Updates")]
+PAGES = [("index.html", "Home"), ("guide.html", "Report Guide"), ("updates.html", "Build Updates")]
 
 
 def wordmark():
@@ -252,7 +272,7 @@ def index():
     <div class="banner-text">
       <h1>The economy, <span>read for you.</span></h1>
       <div class="btn-row">
-        <a href="updates.html" class="btn light">Follow the Build</a>
+        <a href="guide.html" class="btn light">Download the Free Report Guide</a>
       </div>
     </div>
   </div>
@@ -302,26 +322,26 @@ def index():
 <section id="plan" class="band">
   <div class="wrap">
     <div class="section-head center">
-      <h2>See how an AI investor thinks in three steps</h2>
-      <p>Every trade happens on a practice account first.</p>
+      <h2>Understand the economic news in three steps</h2>
+      <p>Start with one page on the four reports that move the economy.</p>
     </div>
     <ol class="timeline">
       <li>
-        <h3>Follow the weekly build updates</h3>
-        <p>Each week I post what I built, what the AI read and what it decided.</p>
+        <h3>Download the free report guide</h3>
+        <p>One page on the four reports: what each one measures, who publishes it and when it comes out.</p>
       </li>
       <li>
-        <h3>Watch the paper-trading results</h3>
-        <p>The AI trades a practice account with no real money, and every result goes on the site, wins and losses. Paper results are hypothetical and can't predict future returns.</p>
+        <h3>Check the AI's read when a report comes out</h3>
+        <p>Each week I post what the AI read in the newest reports, what it traded on a paper account with no real money, and why. Paper results are hypothetical and can't predict future returns.</p>
       </li>
       <li>
-        <h3>Try the free demo</h3>
-        <p>When the demo opens, watch the AI read a jobs report or an inflation release and decide what to do.</p>
+        <h3>Know what the news means for your money</h3>
+        <p>Spend a few minutes with each report, then decide what it means for your own investments.</p>
       </li>
     </ol>
     <p class="punch">I'll show the reasoning behind every trade the AI makes, so you can judge each one.</p>
     <div class="btn-row">
-      <a href="updates.html" class="btn">Follow the Build</a>
+      <a href="guide.html" class="btn">Download the Free Report Guide</a>
     </div>
   </div>
 </section>
@@ -337,6 +357,9 @@ def index():
       <ul class="series">
 {series}
       </ul>
+    </div>
+    <div class="btn-row">
+      <a href="guide.html" class="btn">See All Four in the Free Guide</a>
     </div>
   </div>
 </section>
@@ -378,8 +401,8 @@ def index():
     <p class="cite-line">Sources: Barber and Odean, Journal of Finance, 2000; Barber, Huang, Odean and Schwarz, Journal of Finance, 2022.</p>
   </div>
 </section>
-""" + cta("Watch an AI read the jobs report", "Weekly updates on what the AI read, what it traded on paper and why.",
-          "updates.html", "Follow the Build") + sources(["choice", "literacy", "overload", "taiwan", "hazardous", "robinhood"]) + "\n</main>\n" + foot()
+""" + cta("Four economic reports on one page", "What each one measures, who publishes it and when it comes out. Free to download.",
+          "guide.html", "Download the Free Report Guide") + sources(["choice", "literacy", "overload", "taiwan", "hazardous", "robinhood"]) + "\n</main>\n" + foot()
 
 
 # ---------------------------------------------------------------- updates
@@ -439,8 +462,55 @@ def updates():
     </div>
   </div>
 </section>
-""" + cta("Four reports, one AI, no real money", "See what the AI reads first, and why I'm building it.",
-          "index.html#data", "See the Data") + "\n</main>\n" + foot()
+""" + cta("Start with the four reports the AI reads", "One free page on what each report measures and when it comes out.",
+          "guide.html", "Download the Free Report Guide") + "\n</main>\n" + foot()
+
+
+def guide():
+    t = f"The Free Economic Report Guide: CPI, Jobs, Unemployment and Interest Rates | {SITE_NAME}"
+    d = ("A free one-page guide to the four economic reports investors watch: what each one measures, "
+         "who publishes it and when it comes out.")
+    schema = [page_schema("WebPage", "guide.html", t, d, {"about": "U.S. economic data releases"}),
+              {"@type": "BreadcrumbList", "itemListElement": [
+                  {"@type": "ListItem", "position": 1, "name": "Home", "item": SITE},
+                  {"@type": "ListItem", "position": 2, "name": "Report Guide", "item": SITE + "guide.html"}]}]
+    cards = "\n".join(f"""      <article class="report" id="{r['id']}">
+        <div class="icon">{ICONS[r['icon']]}</div>
+        <h3>{r['name']}</h3>
+        <p class="series-id"><code>{r['series']}</code></p>
+        <p>{r['measures']}</p>
+        <dl>
+          <dt>Published by</dt><dd>{r['who']}</dd>
+          <dt>Comes out</dt><dd>{r['when']}</dd>
+          <dt>Why investors watch it</dt><dd>{r['why']}</dd>
+        </dl>
+      </article>""" for r in REPORTS)
+    return head(t, d, "guide.html", schema) + nav("guide.html") + f"""
+<main id="main">
+
+<header class="page-hero">
+  <div class="wrap split">
+    <div>
+      <h1>The free economic report guide</h1>
+      <p class="lede">The four reports my AI reads first, on one page: what each one measures, who publishes it and when it comes out.</p>
+      <div class="btn-row">
+        <a href="economic-report-guide.pdf" class="btn" download>Download the PDF</a>
+      </div>
+    </div>
+    {photo("couple", "A man and a woman at a kitchen table looking at a laptop together", eager=True)}
+  </div>
+</header>
+
+<section class="band" id="reports">
+  <div class="wrap">
+    <div class="reports">
+{cards}
+    </div>
+    <p class="print-note">Educational only. Nothing here is investment advice or a recommendation to buy or sell any security. Data from the U.S. Bureau of Labor Statistics and the Federal Reserve. {SITE_NAME}, by {AUTHOR}.</p>
+  </div>
+</section>
+""" + cta("Then see what the AI made of them", "Each week I post what the AI read in the newest reports and what it traded on paper.",
+          "updates.html", "Follow the Build Updates") + "\n</main>\n" + foot()
 
 
 def sitemap():
@@ -449,7 +519,7 @@ def sitemap():
 
 
 if __name__ == "__main__":
-    for name, fn in {"index.html": index, "updates.html": updates}.items():
+    for name, fn in {"index.html": index, "guide.html": guide, "updates.html": updates}.items():
         with open(name, "w") as f:
             f.write(fn())
         print("wrote", name)
