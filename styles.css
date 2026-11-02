@@ -364,13 +364,13 @@ a.pcard:hover h3{ color: var(--blue); }
 }
 
 /* ---------------- home: hero banner, number strip, data cards, sample read ----------------
-   The photo fills the left 70% of the banner and fades into the page, so the
-   headline sits on solid dark on the right. Phones stack the photo above. */
+   The photo fills the right 70% of the banner and fades into the page, so the
+   headline sits on solid dark on the left. Phones stack the photo above. */
 .hero-banner{ background: var(--bg); min-height: min(660px, 80vh); }
 .hero-banner::before{ display: none; }
-.hero-banner picture{ right: auto; width: 70%; }
-.hero-banner img{ object-position: 30% 50%; -webkit-mask-image: linear-gradient(90deg, #000 50%, transparent 98%); mask-image: linear-gradient(90deg, #000 50%, transparent 98%); }
-.hero-banner .wrap{ display: flex; justify-content: flex-end; }
+.hero-banner picture{ left: auto; width: 70%; }
+.hero-banner img{ object-position: 70% 50%; -webkit-mask-image: linear-gradient(270deg, #000 50%, transparent 98%); mask-image: linear-gradient(270deg, #000 50%, transparent 98%); }
+.hero-banner .wrap{ display: flex; justify-content: flex-start; }
 .hero-banner .banner-text{ max-width: 500px; text-align: left; }
 .hero-banner h1{ font-size: clamp(3rem, 5.6vw, 4.8rem); line-height: 0.98; letter-spacing: -0.045em; }
 .hero-banner p{ color: var(--ink-soft); font-size: 1.14rem; margin-top: 18px; }

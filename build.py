@@ -460,7 +460,7 @@ def index():
 <header class="banner hero-banner">
   <picture>
     <source media="(max-width: 860px)" srcset="images/hero-m-600.webp 600w, images/hero-m-900.webp 900w" sizes="100vw">
-    <img src="images/hero-1500.webp" srcset="images/hero-1000.webp 1000w, images/hero-1500.webp 1500w, images/hero-2000.webp 2000w" sizes="70vw" width="1500" height="1000" alt="A man and a woman checking their phones on a city street at night" fetchpriority="high" decoding="async">
+    <img src="images/hero-1500.webp" srcset="images/hero-1000.webp 1000w, images/hero-1500.webp 1500w, images/hero-2000.webp 2000w" sizes="70vw" width="1500" height="1000" alt="A man researching at three computer monitors late at night" fetchpriority="high" decoding="async">
   </picture>
   <div class="wrap">
     <div class="banner-text">
@@ -474,7 +474,7 @@ def index():
 
 <section id="problem" class="band">
   <div class="wrap split flip">
-    {photo("subway", "A man in a black hoodie and backpack hunched over his phone on an empty subway car", tall=True)}
+    {photo("late-desk", "A man working late at his desk in a dark office, lit by a desk lamp", tall=True)}
     <div>
       <h2>Keeping up with the economy takes hours</h2>
       <p class="lead">Inflation reports, jobs numbers and interest rate decisions arrive every month, spread across many different sources.</p>
@@ -534,7 +534,7 @@ def index():
       <h2>What changes when you understand the reports</h2>
     </div>
     <div class="stakes-split">
-      {photo("phone", "A woman reading her phone at a cafe table beside a coffee cup and a leather notebook")}
+      {photo("cafe-laptop", "Two women smiling as they research something together on a laptop at a cafe")}
       <div class="stakes">
         <div class="stake">
           <h3>When you trade on headlines</h3>
@@ -672,13 +672,13 @@ def research():
       <p class="after-chart">A later study used every trade in Taiwan from 1995 to 1999. Individual investors lost 3.8 percentage points a year to trading, while institutions, with their analysts and software, gained 1.5.</p>
       <p class="cite-line">Source: Barber, Lee, Liu and Odean, Review of Financial Studies, 2009.</p>
     </div>
-    {photo("chart-phone", "A hand holding up a phone showing a stock chart in front of a large screen of price charts", tall=True)}
+    {photo("late-pair", "Two colleagues going over a report together late at night in a dim office", tall=True)}
   </div>
 </section>
 
 <section id="attention" class="band">
   <div class="wrap split flip">
-    {photo("students-phones", "Two students smiling at a phone together at a desk in a lecture hall")}
+    {photo("night-laptop", "A person working on a laptop at night beside a window over the city lights")}
     <div>
       <h2>Buying whatever grabs attention</h2>
       <p class="lead">Individual investors tend to buy the stocks in the news, and those stocks often do worse afterward.</p>
@@ -699,7 +699,7 @@ def research():
       <p>That's the question my project is testing. Every trade the AI makes happens on a paper account with no real money, and I'll post the results each week, including the weeks it gets wrong. Paper results are hypothetical and can't predict future returns.</p>
       <div class="btn-row start"><a href="updates.html" class="btn ghost">Follow the build updates</a></div>
     </div>
-    {photo("friends-phone", "A man and a woman laughing together as they look at a phone")}
+    {photo("laptop-smile", "A man smiling as he reads something on his laptop at a cafe")}
   </div>
 </section>
 """ + closing_banner("Start with the four reports the AI reads", "One free page on what each report measures and when it comes out.",

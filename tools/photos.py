@@ -10,21 +10,30 @@ def grade(im):
     return ImageEnhance.Color(im).enhance(1.04)
 
 
+def crop(im, ratio, fx=0.5, fy=0.5):
+    """The largest crop at `ratio`, placed by focus point (0-1 on each axis)."""
+    w, h = im.size
+    if w / h > ratio:
+        nw = round(h * ratio); x = round((w - nw) * fx); return im.crop((x, 0, x + nw, h))
+    nh = round(w / ratio); y = round((h - nh) * fy); return im.crop((0, y, w, y + nh))
+
+
 # Julian (4:5), from Caroline's "Photo of Julian" email, 2026-10-29.
 im = grade(ImageOps.exif_transpose(Image.open("images/originals/julian.jpg")).crop((430, 600, 3830, 4850)))
 for w in (480, 680, 800):
     im.resize((w, round(w * 5 / 4)), Image.LANCZOS).save(f"images/julian-{w}.webp", quality=72, method=6)
 print("wrote julian")
 
-# Home hero banner: a man and a woman checking their phones on a city street
-# at night (Unsplash photo-1666380601180-8fc217036906). The full 3:2 frame
-# fills the left of the banner on laptops and fades into the page; 4:3 on
-# phones. Graded neutral: the night colors stay as shot.
-im = Image.open("images/originals/night-pair.jpg").convert("RGB")
+# Home hero banner: a man researching at three monitors late at night
+# (Unsplash photo-1719400471588-575b23e27bd7). 3:2 on laptops, where it fills
+# the right of the banner and fades into the page; 4:3 on phones. Graded
+# neutral: the night colors stay as shot.
+im = Image.open("images/originals/monitors.jpg").convert("RGB")
 im = ImageEnhance.Contrast(im).enhance(1.04)
+wide = crop(im, 3 / 2, 0.5, 0.45)
 for tw in (1000, 1500, 2000):
-    im.resize((tw, round(tw * 2 / 3)), Image.LANCZOS).save(f"images/hero-{tw}.webp", quality=74, method=6)
-m = im.crop((0, 0, 2133, 1600))
+    wide.resize((tw, round(tw * 2 / 3)), Image.LANCZOS).save(f"images/hero-{tw}.webp", quality=74, method=6)
+m = crop(im, 4 / 3)
 for tw in (600, 900):
     m.resize((tw, round(tw * 3 / 4)), Image.LANCZOS).save(f"images/hero-m-{tw}.webp", quality=74, method=6)
 print("wrote hero")
@@ -43,10 +52,9 @@ for tw in (600, 900):
     tall.resize((tw, round(tw * 3 / 4)), Image.LANCZOS).save(f"images/banner-m-{tw}.webp", quality=72, method=6)
 print("wrote banner")
 
-# Stock, 4:3: laptop with a stock chart (Unsplash ztYmIQecyH4) and a woman
-# reading her phone at a cafe (Unsplash z6w4T4tAOxI).
+# Stock, 4:3: laptop with a stock chart (Unsplash ztYmIQecyH4).
 # The guide page uses a couple at a laptop (Unsplash bEQgcVTb1hQ).
-for name, src, x in (("laptop", "ztYmIQecyH4", 177), ("phone", "z6w4T4tAOxI", 120), ("couple", "bEQgcVTb1hQ", 560)):
+for name, src, x in (("laptop", "ztYmIQecyH4", 177), ("couple", "bEQgcVTb1hQ", 560)):
     im = Image.open(f"images/originals/{src}.jpg")
     w, h = im.size
     im = grade(im.crop((x, 0, x + round(h * 4 / 3), h)))
@@ -54,22 +62,15 @@ for name, src, x in (("laptop", "ztYmIQecyH4", 177), ("phone", "z6w4T4tAOxI", 12
         im.resize((tw, round(tw * 3 / 4)), Image.LANCZOS).save(f"images/{name}-{tw}.webp", quality=74, method=6)
     print("wrote", name)
 
-def crop(im, ratio, fx=0.5, fy=0.5):
-    """The largest crop at `ratio`, placed by focus point (0-1 on each axis)."""
-    w, h = im.size
-    if w / h > ratio:
-        nw = round(h * ratio); x = round((w - nw) * fx); return im.crop((x, 0, x + nw, h))
-    nh = round(w / ratio); y = round((h - nh) * fy); return im.crop((0, y, w, y + nh))
-
 
 # Section photos (4:3), all Unsplash. name: (id, focus x, focus y)
 SECTIONS = {
     "letter": ("mTtTJE6SU78", 0.45, 0.5),      # couple reading a page together at breakfast
     "paperwork": ("WyyP2PsmwKw", 0.5, 0.5),    # couple going over papers at the kitchen table
     "screens": ("vKNRKjSNbTo", 0.5, 0.62),     # trading charts on a tablet and monitors
-    "chart-phone": ("K5mPtONmpHM", 0.35, 0.5), # phone held up in front of a stock chart
-    "students-phones": ("QCNJ3xGnFR4", 0.5, 0.5),
-    "friends-phone": ("Y4zNMW3pQAs", 0.6, 0.5),
+    "cafe-laptop": ("cafe-laptop", 0.5, 0.5),   # two women researching on a laptop at a cafe
+    "night-laptop": ("night-laptop", 0.5, 0.55), # working on a laptop at night by a city window
+    "laptop-smile": ("laptop-smile", 0.5, 0.42), # man smiling over his laptop at a cafe
 }
 for name, (src, fx, fy) in SECTIONS.items():
     im = grade(crop(Image.open(f"images/originals/{src}.jpg"), 4 / 3, fx, fy))
@@ -79,9 +80,9 @@ for name, (src, fx, fy) in SECTIONS.items():
 
 # Tall versions (4:5) for sections whose text runs long beside the photo.
 TALL = {
-    "subway-t": ("subway", 0.22, 0.5),           # man on his phone on an empty subway car at night
+    "late-desk-t": ("late-desk", 0.5, 0.5),      # man working late at his desk
     "paperwork-t": ("WyyP2PsmwKw", 0.5, 0.5),
-    "chart-phone-t": ("K5mPtONmpHM", 0.2, 0.5),
+    "late-pair-t": ("late-pair", 0.78, 0.5),     # two colleagues going over a report late at night
 }
 for name, (src, fx, fy) in TALL.items():
     im = grade(crop(Image.open(f"images/originals/{src}.jpg"), 4 / 5, fx, fy))
