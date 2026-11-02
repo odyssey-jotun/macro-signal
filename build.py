@@ -28,12 +28,15 @@ SOURCES = {
 }
 
 # ---------------------------------------------------------------- the data
-# The economic releases the agent reads first, by their FRED series IDs.
+# The economic releases the agent reads first, by the series IDs their
+# publishers use: the Bureau of Labor Statistics and the Federal Reserve
+# Board. Both are public-domain U.S. government data. FRED is not used: its
+# terms forbid using FRED content to develop software or AI.
 SERIES = [
-    {"id": "CPIAUCSL", "icon": "cart", "name": "Inflation", "text": "The Consumer Price Index, released monthly."},
-    {"id": "FEDFUNDS", "icon": "bank", "name": "Interest rates", "text": "The federal funds rate set by the Federal Reserve."},
-    {"id": "PAYEMS", "icon": "people", "name": "Jobs added", "text": "Payroll jobs from the monthly jobs report."},
-    {"id": "UNRATE", "icon": "chart", "name": "Unemployment", "text": "The share of workers looking for a job."},
+    {"id": "CUSR0000SA0", "icon": "cart", "name": "Inflation", "text": "The Consumer Price Index, from the Bureau of Labor Statistics."},
+    {"id": "RIFSPFF_N.M", "icon": "bank", "name": "Interest rates", "text": "The federal funds rate, from the Federal Reserve Board."},
+    {"id": "CES0000000001", "icon": "people", "name": "Jobs", "text": "Payroll jobs from the monthly jobs report."},
+    {"id": "LNS14000000", "icon": "chart", "name": "Unemployment", "text": "The share of workers looking for a job."},
 ]
 
 # ---------------------------------------------------------------- helpers
@@ -111,7 +114,7 @@ def head(title, desc, path="", schema=None, pre=""):
 <meta property="og:image" content="{SITE}images/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Invest without the homework. An AI agent that reads the economic news.">
+<meta property="og:image:alt" content="The economy, read for you. An AI agent that reads the economic news.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 {pre}<link rel="preload" href="fonts/plex-sans-700.woff2" as="font" type="font/woff2" crossorigin>
@@ -165,7 +168,8 @@ def foot():
     <ul>
 {lis}
     </ul>
-    <p class="disclaimer">Every trade on this site happens on a paper account with no real money. Nothing here is financial advice.</p>
+    <p class="disclaimer">{SITE_NAME} is a student project. I'm not a registered investment adviser or broker-dealer, and nothing on this site is investment advice or a recommendation to buy or sell any security. Every trade shown happens on a paper account with no real money. Paper-trading and backtested results are hypothetical: they leave out real fees and slippage, and they can't predict future results.</p>
+    <p class="disclaimer">Economic data comes from the U.S. Bureau of Labor Statistics and the Federal Reserve Board. Neither agency sponsors or endorses this site.</p>
   </div>
 </footer>
 
@@ -246,7 +250,7 @@ def index():
   </picture>
   <div class="wrap">
     <div class="banner-text">
-      <h1>Invest without <span>the homework.</span></h1>
+      <h1>The economy, <span>read for you.</span></h1>
       <div class="btn-row">
         <a href="updates.html" class="btn light">Follow the Build</a>
       </div>
@@ -290,7 +294,7 @@ def index():
     <div>
       <h2>I kept missing the news during class</h2>
       <p>I'm Julian Sassoon, a junior in Georgia. I've spent six years learning how markets work and testing trading strategies. My problem was always time. Big economic reports come out during the school day, and by the time I could look, the market had already moved.</p>
-      <p>So I'm building an AI agent that reads the economic data for me. It pulls inflation, interest rate and jobs numbers from FRED, the Federal Reserve Bank of St. Louis's public database, decides what to trade, and explains why. I've already built a trading journal and a position-size calculator with Codex, and I've been experimenting with AI agents since Auto-GPT.</p>
+      <p>So I'm building an AI agent that reads the economic data for me. It pulls inflation, interest rate and jobs numbers straight from the Bureau of Labor Statistics and the Federal Reserve, decides what to trade, and explains why. I've already built a trading journal and a position-size calculator with Codex, and I've been experimenting with AI agents since Auto-GPT.</p>
     </div>
   </div>
 </section>
@@ -308,7 +312,7 @@ def index():
       </li>
       <li>
         <h3>Watch the paper-trading results</h3>
-        <p>The AI trades a practice account with no real money, and every result goes on the site, wins and losses.</p>
+        <p>The AI trades a practice account with no real money, and every result goes on the site, wins and losses. Paper results are hypothetical and can't predict future returns.</p>
       </li>
       <li>
         <h3>Try the free demo</h3>
@@ -326,10 +330,10 @@ def index():
   <div class="wrap">
     <div class="section-head center">
       <h2>Four reports the AI reads first</h2>
-      <p>Each one comes straight from FRED, by its series ID.</p>
+      <p>Each one comes straight from the agency that publishes it, by its series ID.</p>
     </div>
     <div class="terminal">
-      <p class="terminal-bar" aria-hidden="true"><span></span><span></span><span></span>fred.stlouisfed.org/series</p>
+      <p class="terminal-bar" aria-hidden="true"><span></span><span></span><span></span>api.bls.gov &middot; federalreserve.gov</p>
       <ul class="series">
 {series}
       </ul>
@@ -341,7 +345,7 @@ def index():
   <div class="wrap split">
     <div>
       <h2>Know what the news means for your money</h2>
-      <p>You'll know when an inflation report or a jobs number affects your investments, and why. You'll spend less time reading financial news and more time on everything else, and you'll make decisions about your money with confidence.</p>
+      <p>You'll see how an AI reads each report and why it trades, so you can decide what the news means for your own money. And you'll spend less time reading financial news.</p>
     </div>
     {photo("phone", "A woman reading her phone at a cafe table beside a coffee cup and a leather notebook")}
   </div>
@@ -370,6 +374,7 @@ def index():
         <p>The stocks Robinhood users bought in the biggest numbers each day trailed the market by an average of 4.7% over the next 20 trading days.</p>
       </div>
     </div>
+    <p class="punch test">I'm testing whether an AI that reads economic data can avoid these mistakes. The paper-trading results will show whether it does.</p>
     <p class="cite-line">Sources: Barber and Odean, Journal of Finance, 2000; Barber, Huang, Odean and Schwarz, Journal of Finance, 2022.</p>
   </div>
 </section>
@@ -379,7 +384,7 @@ def index():
 
 # ---------------------------------------------------------------- updates
 BUILD = [
-    ("Pull the data", "A script downloads inflation, interest rate and jobs data from FRED as soon as each report comes out."),
+    ("Pull the data", "A script downloads inflation, interest rate and jobs data from the Bureau of Labor Statistics and the Federal Reserve as soon as each report comes out."),
     ("Let the AI read it", "An AI agent compares the new numbers with past reports and decides whether to buy, sell or wait."),
     ("Trade on paper", "Each decision goes to a paper-trading account with no real money, along with the AI's reasoning."),
     ("Test it on the past", "The same rules run against years of past data, to see how the strategy would have done."),
@@ -388,7 +393,7 @@ BUILD = [
 
 def updates():
     t = f"Build Updates: An AI Agent That Trades on Economic Data | {SITE_NAME}"
-    d = ("Weekly updates on the AI agent I'm building: what it read from FRED, "
+    d = ("Weekly updates on the AI agent I'm building: what it read in each report, "
          "what it traded on paper, and what I changed.")
     schema = [page_schema("WebPage", "updates.html", t, d, {"about": "Building an AI trading agent"}),
               {"@type": "BreadcrumbList", "itemListElement": [
@@ -430,6 +435,7 @@ def updates():
     </div>
     <div class="note">
       <p>The first update goes up in November 2026, when version one starts reading real data.</p>
+      <p class="small">Every result posted here comes from a paper account with no real money. Paper and backtested results are hypothetical, leave out real fees and slippage, and can't predict future returns. Nothing here is investment advice.</p>
     </div>
   </div>
 </section>
