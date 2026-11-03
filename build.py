@@ -764,6 +764,109 @@ def updates():
                      "guide.html", "Download the Free Report Guide") + credits() + "\n</main>\n" + foot()
 
 
+# ---------------------------------------------------------------- the PDF guide
+# A one-page Letter handout, printed by tools/pdf.cjs. Its own layout: the
+# web guide page is not built to be printed.
+# Release dates: bls.gov/schedule and federalreserve.gov/monetarypolicy/fomccalendars.htm
+CALENDAR = [("Nov 6", "Fri, 8:30 a.m.", "Jobs report for October"),
+            ("Nov 10", "Tue, 8:30 a.m.", "Consumer Price Index for October"),
+            ("Dec 4", "Fri, 8:30 a.m.", "Jobs report for November"),
+            ("Dec 9", "Wed, 2:00 p.m.", "Federal Reserve rate decision"),
+            ("Dec 10", "Thu, 8:30 a.m.", "Consumer Price Index for November")]
+
+PRINT_CSS = """
+@font-face{font-family:'IBM Plex Sans';font-weight:400;src:url(../fonts/plex-sans-400.woff2) format('woff2')}
+@font-face{font-family:'IBM Plex Sans';font-weight:700;src:url(../fonts/plex-sans-700.woff2) format('woff2')}
+@font-face{font-family:'IBM Plex Mono';font-weight:500;src:url(../fonts/plex-mono-500.woff2) format('woff2')}
+@page{size:Letter;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:8.5in;height:11in;background:#fff}
+body{font-family:'IBM Plex Sans',sans-serif;color:#0B1118;-webkit-print-color-adjust:exact;print-color-adjust:exact;display:flex;flex-direction:column}
+.n{font-family:'IBM Plex Mono',monospace;font-weight:500;letter-spacing:-0.02em}
+.top{background:#07090D;color:#EDF1F6;padding:24px 48px 22px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px}
+.brand svg{width:28px;height:28px}
+.brand .last{color:#45D19A}
+.brand .tag{margin-left:auto;font-weight:400;color:#9AA6B5;font-size:12px}
+h1{font-size:35px;line-height:1.05;letter-spacing:-0.03em;margin-top:16px}
+h1 span{color:#45D19A}
+.top p{color:#9AA6B5;font-size:13px;line-height:1.5;margin-top:8px;max-width:600px}
+.body{flex:1;display:flex;flex-direction:column;justify-content:space-evenly;padding:0 48px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{border:1px solid #DDE3EA;border-radius:14px;padding:14px 18px}
+.head{display:flex;align-items:center;gap:10px}
+.chip{width:28px;height:28px;border-radius:8px;background:#07090D;color:#45D19A;display:grid;place-items:center}
+.chip svg{width:16px;height:16px}
+h2{font-size:15.5px;letter-spacing:-0.01em}
+.now{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:center;margin-top:9px;padding:9px 0;border-top:1px solid #EEF1F4;border-bottom:1px solid #EEF1F4}
+.big{font-size:27px;line-height:1;color:#0B7A50}
+.note{grid-column:1/-1;font-size:10.5px;line-height:1.4;color:#5B6675}
+.spark{display:block;justify-self:end;width:auto;height:44px;color:#14A06A}
+.spark .axis{stroke:#C9D1DA;stroke-width:1}
+.spark .up{fill:#14A06A}.spark .down{fill:#E04848}
+.what{font-size:11px;line-height:1.42;margin-top:8px}
+dl{display:grid;grid-template-columns:76px 1fr;gap:4px 10px;margin-top:8px;font-size:10.5px;line-height:1.36}
+dt{font-weight:700}
+dd{color:#3E4956}
+h3{font-size:13px;margin-bottom:9px}
+.cal{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.cal li{list-style:none;border-top:3px solid #45D19A;background:#F4F7F9;border-radius:0 0 10px 10px;padding:9px 11px 10px}
+.cal .d{font-size:17px;line-height:1.1}
+.cal .t{font-size:10px;color:#5B6675;margin-top:2px}
+.cal .w{font-size:10.5px;line-height:1.35;font-weight:700;margin-top:6px}
+.foot{background:#07090D;color:#9AA6B5;padding:15px 48px 13px;font-size:9.5px;line-height:1.45}
+.cta{display:flex;align-items:center;justify-content:space-between;gap:20px;color:#EDF1F6;font-size:13px;font-weight:700;margin-bottom:9px}
+.cta .url{font-family:'IBM Plex Mono',monospace;font-weight:500;color:#45D19A;font-size:12.5px}
+"""
+
+
+def guide_print():
+    L = latest()
+    panels = "\n".join(f"""    <section class="panel">
+      <div class="head"><span class="chip">{ICONS[r['icon']]}</span><h2>{r['name']}</h2></div>
+      <div class="now"><p class="big n">{L[r['id']]['big']}</p>{L[r['id']]['chart']}<p class="note">{L[r['id']]['note']}</p></div>
+      <p class="what">{r['measures']}</p>
+      <dl>
+        <dt>Published by</dt><dd>{r['who']}</dd>
+        <dt>Comes out</dt><dd>{r['when']}</dd>
+        <dt>Your money</dt><dd>{r['why']}</dd>
+      </dl>
+    </section>""" for r in REPORTS)
+    cal = "\n".join(f'      <li><p class="d n">{d}</p><p class="t">{t} Eastern</p><p class="w">{w}</p></li>' for d, t, w in CALENDAR)
+    return f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<title>The Free Economic Report Guide | {SITE_NAME}</title>
+<style>{PRINT_CSS}</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><svg viewBox="0 0 32 32" aria-hidden="true">{LINE}</svg>{wordmark()}<span class="tag">The Free Economic Report Guide</span></div>
+  <h1>The four reports that <span>move the market</span></h1>
+  <p>What each one measures, who publishes it, when it comes out and where it stands now. Numbers as of {AS_OF}, straight from the Bureau of Labor Statistics and the Federal Reserve.</p>
+</header>
+<main class="body">
+  <div class="grid">
+{panels}
+  </div>
+  <section>
+    <h3>Next on the calendar</h3>
+    <ul class="cal">
+{cal}
+    </ul>
+  </section>
+</main>
+<footer class="foot">
+  <div class="cta"><span>Read the AI's plain-English take on each report the day it comes out.</span><span class="url">odyssey-jotun.github.io/macro-signal</span></div>
+  <p>{SITE_NAME} is a student project by Julian Sassoon. Educational only: nothing here is investment advice or a recommendation to buy or sell any security. The AI trades a paper account with no real money.</p>
+</footer>
+</body>
+</html>
+"""
+
+
 def sitemap():
     urls = "\n".join(f"  <url><loc>{SITE}{'' if h == 'index.html' else h}</loc><lastmod>{TODAY}</lastmod></url>" for h, _ in PAGES)
     return f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{urls}\n</urlset>\n'
@@ -774,6 +877,8 @@ if __name__ == "__main__":
         with open(name, "w") as f:
             f.write(fn())
         print("wrote", name)
+    with open("tools/guide-print.html", "w") as f:
+        f.write(guide_print())
     with open("sitemap.xml", "w") as f:
         f.write(sitemap())
     with open("robots.txt", "w") as f:
